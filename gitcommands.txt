@@ -16,3 +16,7 @@ git commit -m "message" ====> commited the changes.
 git push -u origin "branchname" ===> pushes or upload your commited code to the repository in the described branch name.
 git fetch ====> fetches the changes in the repository i.e changes made by 1 collaborates and you want it in your pc.
 git pull ====> fetches and merges at the same time. 
+
+
+// repo link: https://github.com/Ali309455/CPP1-EMS.git
+// gcc main.c studentmanagement.c Portal.c resultprocessing.c attendancemanagement.c  -o main command to run the file it will create a main.exe file 
