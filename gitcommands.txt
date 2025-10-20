@@ -1,0 +1,18 @@
+git init =====> Initializes a repository
+git status ====> tells the status of the repo as it is added or modefied after the last commit.
+git log --online ====> tells the commit history of the repository.
+git reset --hard HEAD~1 ===> resets to the last commited checkpoint.
+git rm -rf .git ===> Removes git repository compleltely from the device. only setup
+git branch "branch name" ===> creates a new branch 
+git branch ===> shows all the branches 
+git branch -d "branch name" deletes the branch 
+git switch -C  "branh name" ====> creates a branch and switch to it.
+git stash ===> while switching from one branch to another it saves the changes but not stage or commit it so that u can switch to another branch.
+git stash apply ===> Addes the stashed changes in your file, which was on hold as u wanted to switch to another branch without staging or commiting.
+git stash clear ===> clear the stashed changes that were saved in your branch as you no longer need them.
+Merger ===> git merger "branchname" ===> merge the branch to the main only done by Merger.
+git clone "repo url" ====> creates a copy of main code on your pc in the selected file (where u have opened your terminal)
+git commit -m "message" ====> commited the changes.
+git push -u origin "branchname" ===> pushes or upload your commited code to the repository in the described branch name.
+git fetch ====> fetches the changes in the repository i.e changes made by 1 collaborates and you want it in your pc.
+git pull ====> fetches and merges at the same time. 
