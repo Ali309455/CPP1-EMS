@@ -19,5 +19,5 @@ git pull ====> fetches and merges at the same time.
 
 
 // repo link: https://github.com/Ali309455/CPP1-EMS.git
-//gcc main.c studentmanagement.c Portal.c resultprocessing.c attendancemanagement.c sittingarrangement.c -o main ===> command to run the file it will create a main.exe file
+//gcc main.c studentmanagement.c Portal.c resultprocessing.c attendancemanagement.c sittingarrangement.c cJSON.c -o main ===> command to run the file it will create a main.exe file
 //  run main.exe file by ====> ./main.exe keep that in mind your terminal is open in code directory.
