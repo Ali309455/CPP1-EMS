@@ -9,8 +9,7 @@
 
 #define MAX 100
 
-struct Student
-{
+struct Student {
     int roll_no;
     char name[50];
     char year_sem[20];
@@ -19,31 +18,32 @@ struct Student
 
 struct Student students[MAX];
 int count = 0;
-void addStudent()
-{
+
+void addStudent(struct Student *ptr) {
     int n;
     printf("\nHow many students do you want to add? ");
     scanf("%d", &n);
     getchar();
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
+        struct Student *s = ptr + count; 
+
         printf("\n--- Adding Student %d ---\n", i + 1);
 
         printf("Enter Roll Number: ");
-        scanf("%d", &students[count].roll_no);
+        scanf("%d", &s->roll_no);
         getchar();
 
         printf("Enter Name: ");
-        fgets(students[count].name, sizeof(students[count].name), stdin);
-        students[count].name[strcspn(students[count].name, "\n")] = 0;
+        fgets(s->name, sizeof(s->name), stdin);
+        s->name[strcspn(s->name, "\n")] = 0;
 
         printf("Enter Year and Semester: ");
-        fgets(students[count].year_sem, sizeof(students[count].year_sem), stdin);
-        students[count].year_sem[strcspn(students[count].year_sem, "\n")] = 0;
+        fgets(s->year_sem, sizeof(s->year_sem), stdin);
+        s->year_sem[strcspn(s->year_sem, "\n")] = 0;
 
         printf("Enter CGPA: ");
-        scanf("%f", &students[count].cgpa);
+        scanf("%f", &s->cgpa);
         getchar();
 
         count++;
@@ -51,68 +51,61 @@ void addStudent()
     }
 }
 
-void displayStudents()
-{
-    if (count == 0)
-    {
+void displayStudents(struct Student *ptr) {
+    if (count == 0) {
         printf("\nNo records found!\n");
         return;
     }
 
     printf("\n%-10s %-20s %-15s %-5s\n", "Roll No", "Name", "Year and Semester", "CGPA");
     printf("-------------------------------------------------------------\n");
-    for (int i = 0; i < count; i++)
-    {
+
+    for (int i = 0; i < count; i++) {
+        struct Student *s = ptr + i;
         printf("%-10d %-20s %-15s %-.2f\n",
-               students[i].roll_no, students[i].name,
-               students[i].year_sem, students[i].cgpa);
+               s->roll_no, s->name, s->year_sem, s->cgpa);
     }
 }
 
-void searchStudent()
-{
+void searchStudent(struct Student *ptr) {
     int roll;
     printf("\nEnter Roll Number to search: ");
     scanf("%d", &roll);
-    for (int i = 0; i < count; i++)
-    {
-        if (students[i].roll_no == roll)
-        {
+
+    for (int i = 0; i < count; i++) {
+        struct Student *s = ptr + i;
+        if (s->roll_no == roll) {
             printf("\nStudent Found:\n");
             printf("Name: %s\nClass: %s\nCGPA: %.2f\n",
-                   students[i].name, students[i].year_sem, students[i].cgpa);
+                   s->name, s->year_sem, s->cgpa);
             return;
         }
     }
     printf("Student not found!\n");
 }
 
-void editStudent()
-{
-
+void editStudent(struct Student *ptr) {
     int roll;
     printf("\nEnter Roll Number to edit: ");
     scanf("%d", &roll);
     getchar();
 
-    for (int i = 0; i < count; i++)
-    {
-        if (students[i].roll_no == roll)
-        {
-            printf("Editing record for %s\n", students[i].name);
+    for (int i = 0; i < count; i++) {
+        struct Student *s = ptr + i;
+        if (s->roll_no == roll) {
+            printf("Editing record for %s\n", s->name);
 
             printf("Enter updated Name: ");
-            fgets(students[i].name, sizeof(students[i].name), stdin);
-            students[i].name[strcspn(students[i].name, "\n")] = 0;
+            fgets(s->name, sizeof(s->name), stdin);
+            s->name[strcspn(s->name, "\n")] = 0;
 
             printf("Enter updated Year & Semester: ");
-            fgets(students[i].year_sem, sizeof(students[i].year_sem), stdin);
-            students[i].year_sem[strcspn(students[i].year_sem, "\n")] = 0;
+            fgets(s->year_sem, sizeof(s->year_sem), stdin);
+            s->year_sem[strcspn(s->year_sem, "\n")] = 0;
 
             printf("Enter updated CGPA: ");
-            scanf("%f", &students[i].cgpa);
-            while (getchar() != '\n')
-                ;
+            scanf("%f", &s->cgpa);
+            getchar();
 
             printf("Record updated successfully!\n");
             return;
@@ -121,20 +114,17 @@ void editStudent()
     printf("Student not found!\n");
 }
 
-void deleteStudent()
-{
+void deleteStudent(struct Student *ptr) {
     int roll, found = 0;
     printf("\nEnter Roll Number to delete: ");
     scanf("%d", &roll);
 
-    for (int i = 0; i < count; i++)
-    {
-        if (students[i].roll_no == roll)
-        {
+    for (int i = 0; i < count; i++) {
+        struct Student *s = ptr + i;
+        if (s->roll_no == roll) {
             found = 1;
-            for (int j = i; j < count - 1; j++)
-            {
-                students[j] = students[j + 1];
+            for (int j = i; j < count - 1; j++) {
+                *(ptr + j) = *(ptr + j + 1); 
             }
             count--;
             printf("Record deleted successfully!\n");
@@ -146,51 +136,44 @@ void deleteStudent()
         printf("Student not found!\n");
 }
 
-void saveToFile()
-{
+void saveToFile(struct Student *ptr) {
     FILE *fp = fopen("students.txt", "w");
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         printf("Error saving data!\n");
         return;
     }
-    for (int i = 0; i < count; i++)
-    {
+
+    for (int i = 0; i < count; i++) {
+        struct Student *s = ptr + i;
         fprintf(fp, "%d,%s,%s,%.2f\n",
-                students[i].roll_no,
-                students[i].name,
-                students[i].year_sem,
-                students[i].cgpa);
+                s->roll_no, s->name, s->year_sem, s->cgpa);
     }
+
     fclose(fp);
 }
 
-void loadFromFile()
-{
+void loadFromFile(struct Student *ptr) {
     FILE *fp = fopen("students.txt", "r");
     if (fp == NULL)
         return;
 
     while (count < MAX &&
            fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
-                  &students[count].roll_no,
-                  students[count].name,
-                  students[count].year_sem,
-                  &students[count].cgpa) == 4)
-    {
+                  &(ptr + count)->roll_no,
+                  (ptr + count)->name,
+                  (ptr + count)->year_sem,
+                  &(ptr + count)->cgpa) == 4) {
         count++;
     }
 
     fclose(fp);
 }
 
-void duplicate()
-{
+void duplicate(struct Student *ptr) {
     int choice;
-    loadFromFile();
+    loadFromFile(ptr);
 
-    do
-    {
+    do {
         printf("\n===== Student Management System =====\n");
         printf("1. Add Student\n");
         printf("2. Display All Students\n");
@@ -202,25 +185,24 @@ void duplicate()
         scanf("%d", &choice);
         getchar();
 
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
-            addStudent();
+            addStudent(ptr);
             break;
         case 2:
-            displayStudents();
+            displayStudents(ptr);
             break;
         case 3:
-            searchStudent();
+            searchStudent(ptr);
             break;
         case 4:
-            editStudent();
+            editStudent(ptr);
             break;
         case 5:
-            deleteStudent();
+            deleteStudent(ptr);
             break;
         case 6:
-            saveToFile();
+            saveToFile(ptr);
             printf("Data saved. Exiting...\n");
             break;
         default:
