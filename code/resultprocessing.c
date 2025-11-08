@@ -455,7 +455,7 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
     printf("\t ------> %S data deleted successfully <--------\n", roll_no);
 }
 
-void main(void)
+void tabulation(void)
 {
     struct Student students[MAX] = {};
 
