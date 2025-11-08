@@ -31,19 +31,19 @@ void addStudent(struct Student *ptr) {
         printf("\n--- Adding Student %d ---\n", i + 1);
 
         printf("Enter Roll Number: ");
-        scanf("%d", &s->roll_no);
+        scanf("%d", &(*s).roll_no);
         getchar();
 
         printf("Enter Name: ");
-        fgets(s->name, sizeof(s->name), stdin);
-        s->name[strcspn(s->name, "\n")] = 0;
+        fgets((*s).name, sizeof((*s).name), stdin);
+        (*s).name[strcspn((*s).name, "\n")] = 0;
 
         printf("Enter Year and Semester: ");
-        fgets(s->year_sem, sizeof(s->year_sem), stdin);
-        s->year_sem[strcspn(s->year_sem, "\n")] = 0;
+        fgets((*s).year_sem, sizeof((*s).year_sem), stdin);
+        (*s).year_sem[strcspn((*s).year_sem, "\n")] = 0;
 
         printf("Enter CGPA: ");
-        scanf("%f", &s->cgpa);
+        scanf("%f", &(*s).cgpa);
         getchar();
 
         count++;
@@ -63,7 +63,7 @@ void displayStudents(struct Student *ptr) {
     for (int i = 0; i < count; i++) {
         struct Student *s = ptr + i;
         printf("%-10d %-20s %-15s %-.2f\n",
-               s->roll_no, s->name, s->year_sem, s->cgpa);
+               (*s).roll_no, (*s).name, (*s).year_sem, (*s).cgpa);
     }
 }
 
@@ -74,10 +74,10 @@ void searchStudent(struct Student *ptr) {
 
     for (int i = 0; i < count; i++) {
         struct Student *s = ptr + i;
-        if (s->roll_no == roll) {
+        if ((*s).roll_no == roll) {
             printf("\nStudent Found:\n");
             printf("Name: %s\nClass: %s\nCGPA: %.2f\n",
-                   s->name, s->year_sem, s->cgpa);
+                   (*s).name, (*s).year_sem, (*s).cgpa);
             return;
         }
     }
@@ -92,19 +92,19 @@ void editStudent(struct Student *ptr) {
 
     for (int i = 0; i < count; i++) {
         struct Student *s = ptr + i;
-        if (s->roll_no == roll) {
-            printf("Editing record for %s\n", s->name);
+        if ((*s).roll_no == roll) {
+            printf("Editing record for %s\n", (*s).name);
 
             printf("Enter updated Name: ");
-            fgets(s->name, sizeof(s->name), stdin);
-            s->name[strcspn(s->name, "\n")] = 0;
+            fgets((*s).name, sizeof((*s).name), stdin);
+            (*s).name[strcspn((*s).name, "\n")] = 0;
 
             printf("Enter updated Year & Semester: ");
-            fgets(s->year_sem, sizeof(s->year_sem), stdin);
-            s->year_sem[strcspn(s->year_sem, "\n")] = 0;
+            fgets((*s).year_sem, sizeof((*s).year_sem), stdin);
+            (*s).year_sem[strcspn((*s).year_sem, "\n")] = 0;
 
             printf("Enter updated CGPA: ");
-            scanf("%f", &s->cgpa);
+            scanf("%f", &(*s).cgpa);
             getchar();
 
             printf("Record updated successfully!\n");
@@ -121,10 +121,10 @@ void deleteStudent(struct Student *ptr) {
 
     for (int i = 0; i < count; i++) {
         struct Student *s = ptr + i;
-        if (s->roll_no == roll) {
+        if ((*s).roll_no == roll) {
             found = 1;
             for (int j = i; j < count - 1; j++) {
-                *(ptr + j) = *(ptr + j + 1); 
+                *(ptr + j) = *(ptr + j + 1);
             }
             count--;
             printf("Record deleted successfully!\n");
@@ -146,7 +146,7 @@ void saveToFile(struct Student *ptr) {
     for (int i = 0; i < count; i++) {
         struct Student *s = ptr + i;
         fprintf(fp, "%d,%s,%s,%.2f\n",
-                s->roll_no, s->name, s->year_sem, s->cgpa);
+                (*s).roll_no, (*s).name, (*s).year_sem, (*s).cgpa);
     }
 
     fclose(fp);
@@ -159,10 +159,10 @@ void loadFromFile(struct Student *ptr) {
 
     while (count < MAX &&
            fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
-                  &(ptr + count)->roll_no,
-                  (ptr + count)->name,
-                  (ptr + count)->year_sem,
-                  &(ptr + count)->cgpa) == 4) {
+                  &(*(ptr + count)).roll_no,
+                  (*(ptr + count)).name,
+                  (*(ptr + count)).year_sem,
+                  &(*(ptr + count)).cgpa) == 4) {
         count++;
     }
 
@@ -210,4 +210,7 @@ void duplicate(struct Student *ptr) {
         }
     } while (choice != 6);
 }
+
+
+
 
