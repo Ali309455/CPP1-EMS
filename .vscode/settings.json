@@ -1,6 +1,18 @@
 {
     "files.associations": {
         "*.ejs": "html",
-        "cjson.h": "c"
+        "cjson.h": "c",
+        "cctype": "c",
+        "cmath": "c",
+        "cstdarg": "c",
+        "cstdint": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "cwchar": "c",
+        "cwctype": "c",
+        "exception": "c",
+        "type_traits": "c",
+        "limits": "c",
+        "typeinfo": "c"
     }
 }
