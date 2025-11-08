@@ -1,7 +1,8 @@
 #ifndef RESULTPROCESSING_H
-#define RESULTPROCESSING_H
+#define RESULTPROCESSING_
 
 #include <stdio.h>
+
 
 // ======================= CONSTANTS =======================
 #define MAX 100

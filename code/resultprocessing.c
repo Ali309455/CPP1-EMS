@@ -2,36 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../header files/cJSON.h"
-#define MAX 100
-struct marks
-{
-    int itfa;
-    int cp;
-    int ap;
-    int pst;
-    int cag;
-    int fe;
-    int itfa_credithours;
-    int cp_credithours;
-    int ap_credithours;
-    int pst_credithours;
-    int cag_credithours;
-    int fe_credithours;
-    float itfa_gradescore;
-    float cp_gradescore;
-    float ap_gradescore;
-    float pst_gradescore;
-    float cag_gradescore;
-    float fe_gradescore;
-};
-struct Student
-{
-    char roll_no[20];
-    char name[20];
-    char year_sem[20];
-    float cgpa;
-    struct marks marks_info;
-};
+
 int CNT;
 int loadData(struct Student *students, int maxCount)
 {
@@ -454,8 +425,8 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
     }
     printf("\t ------> %S data deleted successfully <--------\n", roll_no);
 }
-
 void tabulation(void)
+
 {
     struct Student students[MAX] = {};
 
