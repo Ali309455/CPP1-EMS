@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX 100
-
 struct Student {
     int roll_no;
     char name[50];
@@ -16,17 +14,24 @@ struct Student {
     float cgpa;
 };
 
-struct Student students[MAX];
+struct Student *students = NULL;
 int count = 0;
 
-void addStudent(struct Student *ptr) {
+void addStudent() {
     int n;
     printf("\nHow many students do you want to add? ");
     scanf("%d", &n);
     getchar();
 
     for (int i = 0; i < n; i++) {
-        struct Student *s = ptr + count; 
+        
+        students = realloc(students, (count + 1) * sizeof(struct Student));
+        if (students == NULL) {
+            printf("Memory allocation failed!\n");
+            exit(1);
+        }
+
+        struct Student *s = students + count;  
 
         printf("\n--- Adding Student %d ---\n", i + 1);
 
@@ -51,32 +56,32 @@ void addStudent(struct Student *ptr) {
     }
 }
 
-void displayStudents(struct Student *ptr) {
+void displayStudents() {
     if (count == 0) {
         printf("\nNo records found!\n");
         return;
     }
 
-    printf("\n%-10s %-20s %-15s %-5s\n", "Roll No", "Name", "Year and Semester", "CGPA");
+    printf("\n%-10s %-20s %-15s %-5s\n", "Roll No", "Name", "Year & Sem", "CGPA");
     printf("-------------------------------------------------------------\n");
 
     for (int i = 0; i < count; i++) {
-        struct Student *s = ptr + i;
-        printf("%-10d %-20s %-15s %-.2f\n",
+        struct Student *s = students + i;
+        printf("%-10d %-20s %-15s %.2f\n",
                (*s).roll_no, (*s).name, (*s).year_sem, (*s).cgpa);
     }
 }
 
-void searchStudent(struct Student *ptr) {
+void searchStudent() {
     int roll;
     printf("\nEnter Roll Number to search: ");
     scanf("%d", &roll);
 
     for (int i = 0; i < count; i++) {
-        struct Student *s = ptr + i;
+        struct Student *s = students + i;
         if ((*s).roll_no == roll) {
             printf("\nStudent Found:\n");
-            printf("Name: %s\nClass: %s\nCGPA: %.2f\n",
+            printf("Name: %s\nYear/Sem: %s\nCGPA: %.2f\n",
                    (*s).name, (*s).year_sem, (*s).cgpa);
             return;
         }
@@ -84,16 +89,16 @@ void searchStudent(struct Student *ptr) {
     printf("Student not found!\n");
 }
 
-void editStudent(struct Student *ptr) {
+void editStudent() {
     int roll;
     printf("\nEnter Roll Number to edit: ");
     scanf("%d", &roll);
     getchar();
 
     for (int i = 0; i < count; i++) {
-        struct Student *s = ptr + i;
+        struct Student *s = students + i;
         if ((*s).roll_no == roll) {
-            printf("Editing record for %s\n", (*s).name);
+            printf("\nEditing record for %s\n", (*s).name);
 
             printf("Enter updated Name: ");
             fgets((*s).name, sizeof((*s).name), stdin);
@@ -114,19 +119,22 @@ void editStudent(struct Student *ptr) {
     printf("Student not found!\n");
 }
 
-void deleteStudent(struct Student *ptr) {
+void deleteStudent() {
     int roll, found = 0;
     printf("\nEnter Roll Number to delete: ");
     scanf("%d", &roll);
 
     for (int i = 0; i < count; i++) {
-        struct Student *s = ptr + i;
+        struct Student *s = students + i;
         if ((*s).roll_no == roll) {
             found = 1;
+
             for (int j = i; j < count - 1; j++) {
-                *(ptr + j) = *(ptr + j + 1);
+                *(students + j) = *(students + j + 1);
             }
+
             count--;
+            students = realloc(students, count * sizeof(struct Student));
             printf("Record deleted successfully!\n");
             break;
         }
@@ -136,7 +144,7 @@ void deleteStudent(struct Student *ptr) {
         printf("Student not found!\n");
 }
 
-void saveToFile(struct Student *ptr) {
+void saveToFile() {
     FILE *fp = fopen("students.txt", "w");
     if (fp == NULL) {
         printf("Error saving data!\n");
@@ -144,7 +152,7 @@ void saveToFile(struct Student *ptr) {
     }
 
     for (int i = 0; i < count; i++) {
-        struct Student *s = ptr + i;
+        struct Student *s = students + i;
         fprintf(fp, "%d,%s,%s,%.2f\n",
                 (*s).roll_no, (*s).name, (*s).year_sem, (*s).cgpa);
     }
@@ -152,26 +160,61 @@ void saveToFile(struct Student *ptr) {
     fclose(fp);
 }
 
-void loadFromFile(struct Student *ptr) {
+void loadFromFile() {
     FILE *fp = fopen("students.txt", "r");
     if (fp == NULL)
         return;
 
-    while (count < MAX &&
-           fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
-                  &(*(ptr + count)).roll_no,
-                  (*(ptr + count)).name,
-                  (*(ptr + count)).year_sem,
-                  &(*(ptr + count)).cgpa) == 4) {
+    struct Student temp;
+    while (fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
+                  &temp.roll_no, temp.name, temp.year_sem, &temp.cgpa) == 4) {
+        students = realloc(students, (count + 1) * sizeof(struct Student));
+        if (students == NULL) {
+            printf("Memory allocation failed while loading file!\n");
+            exit(1);
+        }
+        *(students + count) = temp;
         count++;
     }
 
     fclose(fp);
 }
 
-void duplicate(struct Student *ptr) {
+void sittingArrangement() {
+    int rooms, capacity;
+    printf("Enter number of rooms: ");
+    scanf("%d", &rooms);
+    printf("Enter capacity of each room: ");
+    scanf("%d", &capacity);
+
+    int totalSeats = rooms * capacity;
+
+    if (count > totalSeats) {
+        printf("Not enough seats for all students! Total seats: %d, Students: %d\n", totalSeats, count);
+        return;
+    }
+
+    printf("\n===== Sitting Arrangement =====\n");
+
+    int studentIndex = 0;
+
+    for (int r = 1; r <= rooms; r++) {
+        printf("\nRoom %d:\n", r);
+        for (int s = 1; s <= capacity; s++) {
+            if (studentIndex < count) {
+                printf("%s(%d)\t", (*(students + studentIndex)).name, (*(students + studentIndex)).roll_no);
+                studentIndex++;
+            } else {
+                printf("Empty\t");
+            }
+        }
+        printf("\n");
+    }
+}
+
+void menu() {
     int choice;
-    loadFromFile(ptr);
+    loadFromFile();
 
     do {
         printf("\n===== Student Management System =====\n");
@@ -181,36 +224,43 @@ void duplicate(struct Student *ptr) {
         printf("4. Edit Student\n");
         printf("5. Delete Student\n");
         printf("6. Save & Exit\n");
+        printf("7. Sitting Arrangement\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         getchar();
 
         switch (choice) {
         case 1:
-            addStudent(ptr);
+            addStudent();
             break;
         case 2:
-            displayStudents(ptr);
+            displayStudents();
             break;
         case 3:
-            searchStudent(ptr);
+            searchStudent();
             break;
         case 4:
-            editStudent(ptr);
+            editStudent();
             break;
         case 5:
-            deleteStudent(ptr);
+            deleteStudent();
             break;
         case 6:
-            saveToFile(ptr);
+            saveToFile();
             printf("Data saved. Exiting...\n");
+            break;
+             case 7:
+            sittingArrangement();
             break;
         default:
             printf("Invalid choice! Try again.\n");
         }
-    } while (choice != 6);
-}
 
+    } while (choice != 7);
+
+    free(students); 
+    
+}
 
 
 
