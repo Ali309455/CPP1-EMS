@@ -6,16 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../header files/cJSON.h"
 
-struct Student
-{
-    char roll_no[10];
-    char name[50];
-    char semester[20];
-    float cgpa;
-};
-
-struct Student *students = NULL;
+struct Student *students ;
 int count = 0;
 
 void addStudent()
@@ -159,47 +152,188 @@ void deleteStudent()
         printf("Student not found!\n");
 }
 
-void saveToFile()
+void saveDataArray(struct Student *s, int count)
 {
-    FILE *fp = fopen("students.txt", "w");
-    if (fp == NULL)
-    {
-        printf("Error saving data!\n");
-        return;
-    }
+    cJSON *jsonArray = cJSON_CreateArray();
 
     for (int i = 0; i < count; i++)
     {
-        struct Student *s = students + i;
-        fprintf(fp, "%s,%s,%s,%.2f\n",
-                (*s).roll_no, (*s).name, (*s).semester, (*s).cgpa);
+        // Create JSON object for each student
+        cJSON *studentObj = cJSON_CreateObject();
+        cJSON_AddStringToObject(studentObj, "roll_no", s[i].roll_no);
+        cJSON_AddStringToObject(studentObj, "name", s[i].name);
+        cJSON_AddStringToObject(studentObj, "semester", s[i].semester);
+        cJSON_AddNumberToObject(studentObj, "cgpa", s[i].cgpa);
+
+        // Nested marks object
+        cJSON *marksObj = cJSON_CreateObject();
+
+        cJSON_AddNumberToObject(marksObj, "itfa", s[i].marks_info.itfa);
+        cJSON_AddNumberToObject(marksObj, "cp", s[i].marks_info.cp);
+        cJSON_AddNumberToObject(marksObj, "ap", s[i].marks_info.ap);
+        cJSON_AddNumberToObject(marksObj, "pst", s[i].marks_info.pst);
+        cJSON_AddNumberToObject(marksObj, "cag", s[i].marks_info.cag);
+        cJSON_AddNumberToObject(marksObj, "fe", s[i].marks_info.fe);
+
+        cJSON_AddNumberToObject(marksObj, "itfa_credithours", s[i].marks_info.itfa_credithours);
+        cJSON_AddNumberToObject(marksObj, "cp_credithours", s[i].marks_info.cp_credithours);
+        cJSON_AddNumberToObject(marksObj, "ap_credithours", s[i].marks_info.ap_credithours);
+        cJSON_AddNumberToObject(marksObj, "pst_credithours", s[i].marks_info.pst_credithours);
+        cJSON_AddNumberToObject(marksObj, "cag_credithours", s[i].marks_info.cag_credithours);
+        cJSON_AddNumberToObject(marksObj, "fe_credithours", s[i].marks_info.fe_credithours);
+
+        cJSON_AddNumberToObject(marksObj, "itfa_gradescore", s[i].marks_info.itfa_gradescore);
+        cJSON_AddNumberToObject(marksObj, "cp_gradescore", s[i].marks_info.cp_gradescore);
+        cJSON_AddNumberToObject(marksObj, "ap_gradescore", s[i].marks_info.ap_gradescore);
+        cJSON_AddNumberToObject(marksObj, "pst_gradescore", s[i].marks_info.pst_gradescore);
+        cJSON_AddNumberToObject(marksObj, "cag_gradescore", s[i].marks_info.cag_gradescore);
+        cJSON_AddNumberToObject(marksObj, "fe_gradescore", s[i].marks_info.fe_gradescore);
+
+        // Add marks object inside student object
+        cJSON_AddItemToObject(studentObj, "marks_info", marksObj);
+
+        // Add student object to array
+        cJSON_AddItemToArray(jsonArray, studentObj);
     }
 
-    fclose(fp);
-}
+    //  Convert JSON array to string
+    char *json_str = cJSON_Print(jsonArray);
 
-void loadFromFile()
-{
-    FILE *fp = fopen("students.txt", "r");
+    //  Write JSON to file
+    FILE *fp = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "w");
     if (fp == NULL)
-        return;
-
-    struct Student temp;
-    while (fscanf(fp, "%9[^,],%49[^,],%19[^,],%f\n",
-                  temp.roll_no, temp.name, temp.semester, &temp.cgpa) == 4)
     {
-        students = realloc(students, (count + 1) * sizeof(struct Student));
-        if (students == NULL)
-        {
-            printf("Memory allocation failed while loading file!\n");
-            exit(1);
-        }
-        *(students + count) = temp;
-        count++;
+        printf("Error: Unable to open file.\n");
+        cJSON_Delete(jsonArray);
+        free(json_str);
+        return;
     }
 
+    fputs(json_str, fp);
     fclose(fp);
+
+    printf("JSON data saved successfully!\n");
+
+    // Clean up
+    free(json_str);
+    cJSON_Delete(jsonArray);
 }
+
+int loadData(struct Student *students, int maxCount)
+{
+    FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "r");
+    if (!file)
+    {
+        perror("Error opening file");
+        return 0;
+    }
+    // Get file size
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    // Read file into buffer
+    char *data = (char *)malloc(length + 1);
+    fread(data, 1, length, file);
+    data[length] = '\0';
+    fclose(file);
+    // Parse JSON array
+    cJSON *jsonArray = cJSON_Parse(data);
+    free(data);
+    if (!jsonArray || !cJSON_IsArray(jsonArray))
+    {
+        printf("Error: Invalid JSON format.\n");
+        cJSON_Delete(jsonArray);
+        return 0;
+    }
+    int cnt = cJSON_GetArraySize(jsonArray);
+    if (cnt > maxCount)
+        cnt = maxCount; // prevent overflow
+
+    for (int i = 0; i < cnt; i++)
+    {
+        cJSON *studentObj = cJSON_GetArrayItem(jsonArray, i);
+        strcpy(students[i].roll_no, cJSON_GetObjectItem(studentObj, "roll_no")->valuestring);
+        strcpy(students[i].name, cJSON_GetObjectItem(studentObj, "name")->valuestring);
+        strcpy(students[i].semester, cJSON_GetObjectItem(studentObj, "semester")->valuestring);
+        students[i].cgpa = (float)cJSON_GetObjectItem(studentObj, "cgpa")->valuedouble;
+
+        cJSON *marksObj = cJSON_GetObjectItem(studentObj, "marks_info");
+        struct marks *m = &students[i].marks_info;
+        if (marksObj && cJSON_IsObject(marksObj))
+        {
+            cJSON *temp;
+            temp = cJSON_GetObjectItem(marksObj, "itfa");
+            if (temp)
+                m->itfa = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "cp");
+            if (temp)
+                m->cp = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "ap");
+            if (temp)
+                m->ap = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "pst");
+            if (temp)
+                m->pst = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "cag");
+            if (temp)
+                m->cag = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "fe");
+            if (temp)
+                m->fe = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "itfa_credithours");
+            if (temp)
+                m->itfa_credithours = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "cp_credithours");
+            if (temp)
+                m->cp_credithours = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "ap_credithours");
+            if (temp)
+                m->ap_credithours = temp->valueint;
+
+            temp = cJSON_GetObjectItem(marksObj, "pst_credithours");
+            if (temp)
+                m->pst_credithours = temp->valueint;
+            temp = cJSON_GetObjectItem(marksObj, "cag_credithours");
+            if (temp)
+                m->cag_credithours = temp->valueint;
+            temp = cJSON_GetObjectItem(marksObj, "fe_credithours");
+            if (temp)
+                m->fe_credithours = temp->valueint;
+            temp = cJSON_GetObjectItem(marksObj, "itfa_gradescore");
+            if (temp)
+                m->itfa_gradescore = (float)temp->valuedouble;
+            temp = cJSON_GetObjectItem(marksObj, "cp_gradescore");
+            if (temp)
+                m->cp_gradescore = (float)temp->valuedouble;
+            temp = cJSON_GetObjectItem(marksObj, "ap_gradescore");
+            if (temp)
+                m->ap_gradescore = (float)temp->valuedouble;
+            temp = cJSON_GetObjectItem(marksObj, "pst_gradescore");
+            if (temp)
+                m->pst_gradescore = (float)temp->valuedouble;
+            temp = cJSON_GetObjectItem(marksObj, "cag_gradescore");
+            if (temp)
+                m->cag_gradescore = (float)temp->valuedouble;
+            temp = cJSON_GetObjectItem(marksObj, "fe_gradescore");
+            if (temp)
+                m->fe_gradescore = (float)temp->valuedouble;
+        }
+        else
+        {
+            printf("Warning: 'marks_info' missing for student %d!\n", i + 1);
+        }
+    }
+    return cnt;
+}
+
 
 void sittingArrangement()
 {
@@ -244,8 +378,9 @@ void sittingArrangement()
 
 void menu()
 {
+    students = malloc(4 * sizeof(struct Student));
+    count = loadData(students, 100);
     int choice;
-    loadFromFile();
 
     do
     {
@@ -282,7 +417,8 @@ void menu()
             sittingArrangement();
             break;
         case 7:
-            saveToFile();
+            printf("%d\n", count);
+            saveDataArray(students, count);
             printf("Data saved. Exiting...\n");
             break;
         default:
