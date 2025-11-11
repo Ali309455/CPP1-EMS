@@ -24,5 +24,5 @@ void Admin_interface(struct portal_info *cred);
 void teacher_interface(void);
 void first_time_login(struct portal_info *cred);
 void login(struct portal_info cred);
-
+void portal();
 #endif // PORTAL_H

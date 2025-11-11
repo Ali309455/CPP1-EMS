@@ -242,7 +242,7 @@ void login(struct portal_info cred)
     }
 }
 
-void main(void)
+void portal (void)
 {
     struct portal_info credentials;
     memset(&credentials, 0, sizeof(credentials));
