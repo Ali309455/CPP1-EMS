@@ -1,23 +1,34 @@
 #include <stdio.h>
 #include <string.h>
 
-// Subject ke naam list
-char subjects[6][20] = {"ITFA", "CP", "PST", "English", "AP", "CAG"};
+#define SUBJECTS 6
+#define MAX_STUDENTS 100
+
+// Subjects ke naam
+char subjects[SUBJECTS][20] = {"ITFA", "CP", "PST", "English", "AP", "CAG"};
+
+// Structure for each student
+struct Student
+{
+    char name[50];
+    int rollNumber;
+    int attendance[SUBJECTS]; // 1 = Present, 0 = Absent
+};
 
 // Function prototypes
-void takeAttendance(int (*attendance)[100], int *totalStudents);
-void displayAttendance(int (*attendance)[100], int totalStudents);
-void checkTotalAttendance(int (*attendance)[100], int totalStudents);
+void takeAttendance(struct Student students[], int *totalStudents);
+void displayAttendance(struct Student students[], int totalStudents);
+void checkTotalAttendance(struct Student students[], int totalStudents);
 
 int main()
 {
-    int attendance[6][100]; // Yeh main ke andar banayi gayi 2D array hai
-    int totalStudents = 0;  // Yeh total students ka number rakhegi
+    struct Student students[MAX_STUDENTS];
+    int totalStudents = 0;
     int choice;
 
     while (1)
     {
-        printf("\n===== Attendance Management System (Pointer Version) =====\n");
+        printf("\n===== Attendance Management System (Structure Version) =====\n");
         printf("1. Take Attendance\n");
         printf("2. Display Attendance Table\n");
         printf("3. Check Total Attendance (Subject Wise)\n");
@@ -28,13 +39,13 @@ int main()
         switch (choice)
         {
         case 1:
-            takeAttendance(attendance, &totalStudents);
+            takeAttendance(students, &totalStudents);
             break;
         case 2:
-            displayAttendance(attendance, totalStudents);
+            displayAttendance(students, totalStudents);
             break;
         case 3:
-            checkTotalAttendance(attendance, totalStudents);
+            checkTotalAttendance(students, totalStudents);
             break;
         case 4:
             printf("Exiting program...\n");
@@ -46,59 +57,62 @@ int main()
     return 0;
 }
 
-// Function 1: Attendance lena pointer ke zariye
-void takeAttendance(int (*attendance)[100], int *totalStudents)
+// Function 1: Attendance lena
+void takeAttendance(struct Student students[], int *totalStudents)
 {
     printf("Enter total number of students: ");
     scanf("%d", totalStudents);
 
     for (int i = 0; i < *totalStudents; i++)
     {
-        printf("\nTaking attendance for Student %d:\n", i + 1);
-        for (int j = 0; j < 6; j++)
+        printf("\nEnter name of Student %d: ", i + 1);
+        scanf(" %[^\n]s", students[i].name);
+        printf("Enter roll number of Student %d: ", i + 1);
+        scanf("%d", &students[i].rollNumber);
+
+        printf("Taking attendance for %s:\n", students[i].name);
+        for (int j = 0; j < SUBJECTS; j++)
         {
             int status;
             printf("Enter attendance for %s (1 = Present, 0 = Absent): ", subjects[j]);
             scanf("%d", &status);
-
-            *(*(attendance + j) + i) = status; // Pointer ke through value save ho rahi hai
+            students[i].attendance[j] = status;
         }
     }
 }
 
 // Function 2: Attendance show karna
-void displayAttendance(int (*attendance)[100], int totalStudents)
+void displayAttendance(struct Student students[], int totalStudents)
 {
     if (totalStudents == 0)
     {
-        printf("\nTake attendance First\n");
+        printf("\n⚠️ Pehle attendance lo!\n");
         return;
     }
 
     printf("\nAttendance Record:\n");
-    printf("-------------------------------------------\n");
-    printf("Student\tITFA\tCP\tPST\tEnglish\tAP\tCAG\n");
-    printf("-------------------------------------------\n");
+    printf("----------------------------------------------------------\n");
+    printf("Roll\tName\t\tITFA\tCP\tPST\tEnglish\tAP\tCAG\n");
+    printf("----------------------------------------------------------\n");
 
     for (int i = 0; i < totalStudents; i++)
     {
-        printf("S%d\t", i + 1);
-        for (int j = 0; j < 6; j++)
+        printf("%d\t%s\t", students[i].rollNumber, students[i].name);
+        for (int j = 0; j < SUBJECTS; j++)
         {
-            int value = *(*(attendance + j) + i); // Pointer ke zariye value access
-            printf("%c\t", value == 1 ? 'P' : 'A');
+            printf("%c\t", students[i].attendance[j] == 1 ? 'P' : 'A');
         }
         printf("\n");
     }
-    printf("-------------------------------------------\n");
+    printf("----------------------------------------------------------\n");
 }
 
 // Function 3: Kisi ek subject ki total attendance check karna
-void checkTotalAttendance(int (*attendance)[100], int totalStudents)
+void checkTotalAttendance(struct Student students[], int totalStudents)
 {
     if (totalStudents == 0)
     {
-        printf("\nTake attendance First!\n");
+        printf("\n⚠️ Pehle attendance lo!\n");
         return;
     }
 
@@ -107,7 +121,7 @@ void checkTotalAttendance(int (*attendance)[100], int totalStudents)
     scanf("%s", subName);
 
     int subjectIndex = -1;
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < SUBJECTS; i++)
     {
         if (strcmp(subName, subjects[i]) == 0)
         {
@@ -118,15 +132,14 @@ void checkTotalAttendance(int (*attendance)[100], int totalStudents)
 
     if (subjectIndex == -1)
     {
-        printf("Subject Name is Wrong\n");
+        printf("❌ Galat subject name hai!\n");
         return;
     }
 
     int presentCount = 0;
     for (int i = 0; i < totalStudents; i++)
     {
-        int value = *(*(attendance + subjectIndex) + i);
-        if (value == 1)
+        if (students[i].attendance[subjectIndex] == 1)
             presentCount++;
     }
 
