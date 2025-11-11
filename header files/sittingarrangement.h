@@ -1,12 +1,7 @@
 #ifndef SITTINGARRANGEMENT_H
 #define SITTINGARRANGEMENT_H
 #include <stdio.h>
-struct Student
-{
-  char roll_no[10];
-  char name[50];
-  char year_sem[20];
-  float cgpa;
-};
-void sittingArrangement(int);
+#include "../header files/studentmanagement.h"
+
+void sittingArrangement(int count, struct Student *students);
 #endif

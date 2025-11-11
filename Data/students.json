@@ -3,6 +3,7 @@
 		"name":	"Ali",
 		"semester":	"fall",
 		"cgpa":	0,
+		"attendance":	[0, 0, 0, 0, 0, 0],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -25,9 +26,10 @@
 		}
 	}, {
 		"roll_no":	"cs-002",
-		"name":	"Wahab",
+		"name":	"Abdul Wahab",
 		"semester":	"fall",
 		"cgpa":	0,
+		"attendance":	[0, 0, 0, 0, 0, 0],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -53,6 +55,7 @@
 		"name":	"rafay",
 		"semester":	"fall",
 		"cgpa":	0,
+		"attendance":	[0, 0, 0, 0, 0, 0],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -72,5 +75,57 @@
 			"pst_gradescore":	0,
 			"cag_gradescore":	0,
 			"fe_gradescore":	0
+		}
+	}, {
+		"roll_no":	"cs-091",
+		"name":	"DKJ",
+		"semester":	"fall",
+		"cgpa":	0,
+		"attendance":	[0, 0, 0, 0, 0, 0],
+		"marks_info":	{
+			"itfa":	50397953,
+			"cp":	50397953,
+			"ap":	50397953,
+			"pst":	50397953,
+			"cag":	50397953,
+			"fe":	50397953,
+			"itfa_credithours":	50397953,
+			"cp_credithours":	50397953,
+			"ap_credithours":	50397953,
+			"pst_credithours":	34603777,
+			"cag_credithours":	34603536,
+			"fe_credithours":	34603536,
+			"itfa_gradescore":	7.6411868071219334e-037,
+			"cp_gradescore":	7.6415186345982856e-037,
+			"ap_gradescore":	7.6415186345982856e-037,
+			"pst_gradescore":	3.8207593172991428e-037,
+			"cag_gradescore":	3.820701920114044e-037,
+			"fe_gradescore":	3.820701920114044e-037
+		}
+	}, {
+		"roll_no":	"cs-001",
+		"name":	"Ammar",
+		"semester":	"fall",
+		"cgpa":	0,
+		"attendance":	[0, 0, 0, 0, 0, 0],
+		"marks_info":	{
+			"itfa":	151587372,
+			"cp":	1953784098,
+			"ap":	1633971813,
+			"pst":	577069934,
+			"cag":	811272506,
+			"fe":	741351468,
+			"itfa_credithours":	539766816,
+			"cp_credithours":	807414832,
+			"ap_credithours":	1563435052,
+			"pst_credithours":	151587372,
+			"cag_credithours":	1918987554,
+			"fe_credithours":	1767863147,
+			"itfa_gradescore":	3.2444765728060359e-018,
+			"cp_gradescore":	1.2086945724565306e-032,
+			"ap_gradescore":	1.8571745375706351e-018,
+			"pst_gradescore":	2.6569621079588445e+020,
+			"cag_gradescore":	4.9922921352418825e-010,
+			"fe_gradescore":	1.6495557941455615e-033
 		}
 	}]
