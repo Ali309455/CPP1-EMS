@@ -174,6 +174,7 @@ void change_password(int choice, struct portal_info *cred)
         break;
 
     default:
+        printf("Invalid Choice");
         break;
     }
 }
@@ -185,9 +186,7 @@ void Admin_interface(struct portal_info *cred)
     printf("Enter 2 to change Password of Admin\n");
     printf("Enter 3 if you forget password\n ");
     scanf("%d", &admin_choice);
-    if(admin_choice<0 && admin_choice>4)
     change_password(admin_choice, cred);
-    else printf("Invalid Choice\n");
 }
 void first_time_login(struct portal_info *cred)
 {

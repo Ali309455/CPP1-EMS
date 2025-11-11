@@ -11,7 +11,6 @@ void main(void)
 printf("Hellow World\n");
 ems_init();
 ams_init();
-rps_init();
 sa_init();
-signin();
+portal();
 }
