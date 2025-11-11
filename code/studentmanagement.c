@@ -1,9 +1,5 @@
 #include "../header files/studentmanagement.h"
 
-<<<<<<< Updated upstream
-void ems_init(void) {
-    printf("EMS initialized.\n");
-=======
 // void ems_init(void) {
 //     printf("EMS initialized.\n");
 // }
@@ -58,5 +54,4 @@ void addStudent() {
         count++;
         printf("Student added successfully!\n");
     }
->>>>>>> Stashed changes
 }
