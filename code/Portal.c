@@ -1,12 +1,253 @@
-#include"../header files/Portal.h"
-#include<stdio.h>
+#include "../header files/Portal.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../header files/cJSON.h"
 
-void signin(){
-    int roll = 0;
-    printf("Enter Your Roll No: ");
-    scanf("%d", &roll);
-    printf("Your roll No is: %d", roll);
-    if(roll == 1){
-        printf("\nWelcome to Student Portal");
+void load_credentials(struct portal_info *cred)
+{
+    // --- Validate input pointer ---
+    if (cred == NULL)
+    {
+        printf("Error: NULL pointer passed to load_credentials.\n");
+        return;
     }
+
+    // --- Open file for reading ---
+    FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\credentials.json", "r");
+    if (file == NULL)
+    {
+        perror("Error opening credentials file");
+        return;
+    }
+
+    // --- Get file size ---
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    if (length <= 0)
+    {
+        printf("Error: credentials.json is empty or corrupted.\n");
+        fclose(file);
+        return;
+    }
+    fseek(file, 0, SEEK_SET);
+
+    // --- Read entire file into buffer ---
+    char *data = (char *)malloc(length + 1);
+    if (data == NULL)
+    {
+        printf("Error: Memory allocation failed while reading credentials.\n");
+        fclose(file);
+        return;
+    }
+
+    size_t read_bytes = fread(data, 1, length, file);
+    data[read_bytes] = '\0';
+    fclose(file);
+
+    // --- Parse JSON data ---
+    cJSON *json = cJSON_Parse(data);
+    free(data);
+
+    if (json == NULL)
+    {
+        printf("Error: Failed to parse JSON from credentials.json\n");
+        return;
+    }
+
+    // --- Extract teacher_password ---
+    cJSON *teacher = cJSON_GetObjectItem(json, "teacher_password");
+    if (teacher == NULL || !cJSON_IsString(teacher))
+    {
+        printf("Error: Missing or invalid 'teacher_password' in JSON.\n");
+        cJSON_Delete(json);
+        return;
+    }
+
+    // --- Extract admin_password ---
+    cJSON *admin = cJSON_GetObjectItem(json, "admin_password");
+    if (admin == NULL || !cJSON_IsString(admin))
+    {
+        printf("Error: Missing or invalid 'admin_password' in JSON.\n");
+        cJSON_Delete(json);
+        return;
+    }
+
+    // --- Copy data into structure safely ---
+    strncpy(cred->teacher_password, teacher->valuestring, sizeof(cred->teacher_password) - 1);
+    strncpy(cred->admin_password, admin->valuestring, sizeof(cred->admin_password) - 1);
+    strncpy(cred->q1, cJSON_GetObjectItem(json, "q1")->valuestring, sizeof(cred->q1) - 1);
+    strncpy(cred->q2, cJSON_GetObjectItem(json, "q2")->valuestring, sizeof(cred->q2) - 1);
+
+    // Ensure null termination
+    cred->teacher_password[sizeof(cred->teacher_password) - 1] = '\0';
+    cred->admin_password[sizeof(cred->admin_password) - 1] = '\0';
+
+    printf("Credentials loaded successfully.\n");
+
+    // --- Clean up ---
+    cJSON_Delete(json);
+}
+
+void save_password(struct portal_info cred)
+{
+    cJSON *json = cJSON_CreateObject();
+
+    cJSON_AddStringToObject(json, "teacher_password", cred.teacher_password);
+    cJSON_AddStringToObject(json, "admin_password", cred.admin_password);
+    cJSON_AddStringToObject(json, "q1", cred.q1);
+    cJSON_AddStringToObject(json, "q2", cred.q2);
+
+    FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\credentials.json", "w");
+    if (file == NULL)
+    {
+        perror("Error opening credentials file");
+        return;
+    }
+
+    char *json_string = cJSON_Print(json);
+    if (json_string == NULL)
+    {
+        printf("Error: Failed to generate JSON string.\n");
+        cJSON_Delete(json);
+        fclose(file);
+        return;
+    }
+
+    fputs(json_string, file);
+    fclose(file);
+
+    printf("Passweord saved successfully!\n");
+
+    // Clean up
+    free(json_string);
+    cJSON_Delete(json);
+}
+void forget_password(struct portal_info cred)
+{
+    char ans1[25];
+    char ans2[25];
+    printf("\t ----> You need to answer these 2 security Questions <----\n");
+    printf("Q1: What is your favorite color?\n");
+    scanf("%s", &ans1);
+    printf("Q2: What is your favorite animal?\n");
+    scanf("%s", &ans2);
+    if (strcmp(ans1, cred.q1) == 0 && strcmp(ans2, cred.q2) == 0)
+    {
+        printf("Password: %s\n", cred.teacher_password);
+    }
+    else
+    {
+        printf("Wrong Answers\n");
+    }
+}
+
+void teacher_interface(void)
+{
+    printf("---------> Teacher Interface <---------\n");
+}
+
+void change_password(int choice, struct portal_info *cred)
+{
+    char current_password[30];
+    char new_password[30];
+    switch (choice)
+    {
+    case 3:
+        forget_password(*cred);
+        break;
+    case 1:
+        printf("Enter Current Password: ");
+        scanf("%s", &current_password);
+        printf("Enter New Password: ");
+        scanf("%s", &new_password);
+        strcpy(cred->teacher_password, new_password);
+        save_password(*cred);
+        break;
+    case 2:
+        printf("Enter Current Password: ");
+        scanf("%s", &current_password);
+        printf("Enter New Password: ");
+        scanf("%s", &new_password);
+        strcpy(cred->teacher_password, new_password);
+        save_password(*cred);
+        break;
+
+    default:
+        break;
+    }
+}
+void Admin_interface(struct portal_info *cred)
+{
+    int admin_choice;
+    printf("---------> Admin Interface <---------\n");
+    printf("Enter 1 to change password of Teachers\n");
+    printf("Enter 2 to change Password of Admin\n");
+    printf("Enter 3 if you forget password\n ");
+    scanf("%d", &admin_choice);
+    if(admin_choice<0 && admin_choice>4)
+    change_password(admin_choice, cred);
+    else printf("Invalid Choice\n");
+}
+void first_time_login(struct portal_info *cred)
+{
+    char password[30];
+    printf("-----> YOUR USING THE SYSTEM FIRST TIME SET ADMIN AND TEACHER PASSWORDS <---------\n");
+
+    printf("Enter Admin Password: ");
+    scanf("%s", password);
+    strncpy(cred->admin_password, password, sizeof(cred->admin_password) - 1);
+    printf("Enter Teacher Password: ");
+    scanf("%s", password);
+    strncpy(cred->teacher_password, password, sizeof(cred->teacher_password) - 1);
+    char ans1[25];
+    char ans2[25];
+    printf("\t ----> You need to answer these 2 security Questions <----\n");
+    printf("Q1: What is your favorite color?\n");
+    scanf("%s", &ans1);
+    printf("Q2: What is your favorite animal?\n");
+    scanf("%s", &ans2);
+    strncpy(cred->q1, ans1, sizeof(cred->q1) - 1);
+    strncpy(cred->q2, ans2, sizeof(cred->q2) - 1);
+    save_password(*cred);
+}
+void login(struct portal_info cred)
+{
+    char password[30];
+    int status_choice;
+    printf("-----------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <--------------\n");
+    printf("Enter Your Status: \n 0 -> Student \t 1 -> Teacher \t 2->Admin \n");
+    scanf("%d", &status_choice);
+    if (status_choice == 1 || status_choice == 2)
+    {
+        printf("Enter password: ");
+        scanf("%s", password);
+        if (status_choice == 1 && strcmp(password, cred.teacher_password) == 0)
+        {
+            printf("Your Password is Correct!!\n ");
+            teacher_interface();
+        }
+        else if (status_choice == 2 && strcmp(password, cred.admin_password) == 0)
+        {
+            printf("Your Password is Correct!!\n ");
+            Admin_interface(&cred);
+        }
+        else
+        {
+            printf("Invalid password you can only access student interface\n");
+        }
+    }
+    else{
+        printf("Student Interface\n");
+    }
+}
+
+void main(void)
+{
+    struct portal_info credentials;
+    memset(&credentials, 0, sizeof(credentials));
+    load_credentials(&credentials);
+    if (strlen(credentials.admin_password) == 0)
+        first_time_login(&credentials);
+    login(credentials);
 }
