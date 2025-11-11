@@ -47,10 +47,10 @@ extern int CNT;  // defined in resultprocessing.c
 // ======================= FUNCTION DECLARATIONS =======================
 
 // Load data from JSON file into Student array
-int loadData(struct Student *students, int maxCount);
+int load_Data(struct Student *students, int maxCount);
 
 // Save array of Students into JSON file
-void saveDataArray(struct Student *s, int count);
+void save_DataArray(struct Student *s, int count);
 
 // Calculate grade point based on marks
 float grade_points(int marks);

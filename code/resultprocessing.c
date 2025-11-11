@@ -4,7 +4,7 @@
 #include "../header files/cJSON.h"
 
 int CNT;
-int loadData(struct Student *students, int maxCount)
+int load_Data(struct Student *students, int maxCount)
 {
     FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "r");
     if (!file)
@@ -124,7 +124,7 @@ int loadData(struct Student *students, int maxCount)
     return count;
 }
 
-void saveDataArray(struct Student *s, int count)
+void save_DataArray(struct Student *s, int count)
 {
     cJSON *jsonArray = cJSON_CreateArray();
 
@@ -460,7 +460,7 @@ void tabulation(void)
     struct Student students[MAX] = {};
 
     int choice;
-    CNT = loadData(students, MAX);
+    CNT = load_Data(students, MAX);
     printf("\t-------> THE DATA IS <-------\n ");
     printdata(students);
     while (1)
@@ -474,9 +474,9 @@ void tabulation(void)
             switch (choice)
             {
             case 1:
-                CNT = loadData(students, MAX);
+                CNT = load_Data(students, MAX);
                 add_marks_data(students, CNT);
-                saveDataArray(students, CNT);
+                save_DataArray(students, CNT);
                 printf("\t ------> Your marks data is saved successfully and the data is : \n");
                 printdata(students);
                 break;
@@ -515,7 +515,7 @@ void tabulation(void)
         }
         else
         {
-            saveDataArray(students, CNT);
+            save_DataArray(students, CNT);
             return;
         }
     }
