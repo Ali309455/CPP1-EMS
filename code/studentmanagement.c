@@ -9,8 +9,79 @@
 #include "../header files/cJSON.h"
 
 struct Student *students ;
+
 int count = 0;
 
+void saveDataArray(struct Student *s, int count)
+{
+    cJSON *jsonArray = cJSON_CreateArray();
+
+    for (int i = 0; i < count; i++)
+    {
+        // Create JSON object for each student
+        cJSON *studentObj = cJSON_CreateObject();
+        cJSON_AddStringToObject(studentObj, "roll_no", s[i].roll_no);
+        cJSON_AddStringToObject(studentObj, "name", s[i].name);
+        cJSON_AddStringToObject(studentObj, "semester", s[i].semester);
+        cJSON_AddNumberToObject(studentObj, "cgpa", s[i].cgpa);
+        int attendanceArr[SUBJECTS];
+        for (int j = 0; j < SUBJECTS; j++)
+            attendanceArr[j] = 0;
+        cJSON *attendanceArray = cJSON_CreateIntArray(attendanceArr, SUBJECTS);
+        cJSON_AddItemToObject(studentObj, "attendance", attendanceArray);
+        // Nested marks object
+        cJSON *marksObj = cJSON_CreateObject();
+
+        cJSON_AddNumberToObject(marksObj, "itfa", s[i].marks_info.itfa);
+        cJSON_AddNumberToObject(marksObj, "cp", s[i].marks_info.cp);
+        cJSON_AddNumberToObject(marksObj, "ap", s[i].marks_info.ap);
+        cJSON_AddNumberToObject(marksObj, "pst", s[i].marks_info.pst);
+        cJSON_AddNumberToObject(marksObj, "cag", s[i].marks_info.cag);
+        cJSON_AddNumberToObject(marksObj, "fe", s[i].marks_info.fe);
+
+        cJSON_AddNumberToObject(marksObj, "itfa_credithours", s[i].marks_info.itfa_credithours);
+        cJSON_AddNumberToObject(marksObj, "cp_credithours", s[i].marks_info.cp_credithours);
+        cJSON_AddNumberToObject(marksObj, "ap_credithours", s[i].marks_info.ap_credithours);
+        cJSON_AddNumberToObject(marksObj, "pst_credithours", s[i].marks_info.pst_credithours);
+        cJSON_AddNumberToObject(marksObj, "cag_credithours", s[i].marks_info.cag_credithours);
+        cJSON_AddNumberToObject(marksObj, "fe_credithours", s[i].marks_info.fe_credithours);
+
+        cJSON_AddNumberToObject(marksObj, "itfa_gradescore", s[i].marks_info.itfa_gradescore);
+        cJSON_AddNumberToObject(marksObj, "cp_gradescore", s[i].marks_info.cp_gradescore);
+        cJSON_AddNumberToObject(marksObj, "ap_gradescore", s[i].marks_info.ap_gradescore);
+        cJSON_AddNumberToObject(marksObj, "pst_gradescore", s[i].marks_info.pst_gradescore);
+        cJSON_AddNumberToObject(marksObj, "cag_gradescore", s[i].marks_info.cag_gradescore);
+        cJSON_AddNumberToObject(marksObj, "fe_gradescore", s[i].marks_info.fe_gradescore);
+
+        // Add marks object inside student object
+        cJSON_AddItemToObject(studentObj, "marks_info", marksObj);
+
+        // Add student object to array
+        cJSON_AddItemToArray(jsonArray, studentObj);
+    }
+
+    //  Convert JSON array to string
+    char *json_str = cJSON_Print(jsonArray);
+
+    //  Write JSON to file
+    FILE *fp = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "w");
+    if (fp == NULL)
+    {
+        printf("Error: Unable to open file.\n");
+        cJSON_Delete(jsonArray);
+        free(json_str);
+        return;
+    }
+
+    fputs(json_str, fp);
+    fclose(fp);
+
+    printf("JSON data saved successfully!\n");
+
+    // Clean up
+    free(json_str);
+    cJSON_Delete(jsonArray);
+}
 void addStudent()
 {
     int n;
@@ -49,6 +120,7 @@ void addStudent()
 
         count++;
         printf("Student added successfully!\n");
+        saveDataArray(students, count);
     }
 }
 
@@ -152,77 +224,6 @@ void deleteStudent()
         printf("Student not found!\n");
 }
 
-void saveDataArray(struct Student *s, int count)
-{
-    cJSON *jsonArray = cJSON_CreateArray();
-
-    for (int i = 0; i < count; i++)
-    {
-        // Create JSON object for each student
-        cJSON *studentObj = cJSON_CreateObject();
-        cJSON_AddStringToObject(studentObj, "roll_no", s[i].roll_no);
-        cJSON_AddStringToObject(studentObj, "name", s[i].name);
-        cJSON_AddStringToObject(studentObj, "semester", s[i].semester);
-        cJSON_AddNumberToObject(studentObj, "cgpa", s[i].cgpa);
-        int attendanceArr[SUBJECTS];
-        for (int j = 0; j < SUBJECTS; j++)
-            attendanceArr[j] = 0;
-        cJSON *attendanceArray = cJSON_CreateIntArray(attendanceArr, SUBJECTS);
-        cJSON_AddItemToObject(studentObj, "attendance", attendanceArray);
-        // Nested marks object
-        cJSON *marksObj = cJSON_CreateObject();
-
-        cJSON_AddNumberToObject(marksObj, "itfa", s[i].marks_info.itfa);
-        cJSON_AddNumberToObject(marksObj, "cp", s[i].marks_info.cp);
-        cJSON_AddNumberToObject(marksObj, "ap", s[i].marks_info.ap);
-        cJSON_AddNumberToObject(marksObj, "pst", s[i].marks_info.pst);
-        cJSON_AddNumberToObject(marksObj, "cag", s[i].marks_info.cag);
-        cJSON_AddNumberToObject(marksObj, "fe", s[i].marks_info.fe);
-
-        cJSON_AddNumberToObject(marksObj, "itfa_credithours", s[i].marks_info.itfa_credithours);
-        cJSON_AddNumberToObject(marksObj, "cp_credithours", s[i].marks_info.cp_credithours);
-        cJSON_AddNumberToObject(marksObj, "ap_credithours", s[i].marks_info.ap_credithours);
-        cJSON_AddNumberToObject(marksObj, "pst_credithours", s[i].marks_info.pst_credithours);
-        cJSON_AddNumberToObject(marksObj, "cag_credithours", s[i].marks_info.cag_credithours);
-        cJSON_AddNumberToObject(marksObj, "fe_credithours", s[i].marks_info.fe_credithours);
-
-        cJSON_AddNumberToObject(marksObj, "itfa_gradescore", s[i].marks_info.itfa_gradescore);
-        cJSON_AddNumberToObject(marksObj, "cp_gradescore", s[i].marks_info.cp_gradescore);
-        cJSON_AddNumberToObject(marksObj, "ap_gradescore", s[i].marks_info.ap_gradescore);
-        cJSON_AddNumberToObject(marksObj, "pst_gradescore", s[i].marks_info.pst_gradescore);
-        cJSON_AddNumberToObject(marksObj, "cag_gradescore", s[i].marks_info.cag_gradescore);
-        cJSON_AddNumberToObject(marksObj, "fe_gradescore", s[i].marks_info.fe_gradescore);
-
-        // Add marks object inside student object
-        cJSON_AddItemToObject(studentObj, "marks_info", marksObj);
-
-        // Add student object to array
-        cJSON_AddItemToArray(jsonArray, studentObj);
-    }
-
-    //  Convert JSON array to string
-    char *json_str = cJSON_Print(jsonArray);
-
-    //  Write JSON to file
-    FILE *fp = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "w");
-    if (fp == NULL)
-    {
-        printf("Error: Unable to open file.\n");
-        cJSON_Delete(jsonArray);
-        free(json_str);
-        return;
-    }
-
-    fputs(json_str, fp);
-    fclose(fp);
-
-    printf("JSON data saved successfully!\n");
-
-    // Clean up
-    free(json_str);
-    cJSON_Delete(jsonArray);
-}
-
 int loadData(struct Student *students, int maxCount)
 {
     FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "r");
@@ -257,6 +258,7 @@ int loadData(struct Student *students, int maxCount)
     {
         cJSON *studentObj = cJSON_GetArrayItem(jsonArray, i);
         strcpy(students[i].roll_no, cJSON_GetObjectItem(studentObj, "roll_no")->valuestring);
+        printf("%s\n", students[i].roll_no);
         strcpy(students[i].name, cJSON_GetObjectItem(studentObj, "name")->valuestring);
         strcpy(students[i].semester, cJSON_GetObjectItem(studentObj, "semester")->valuestring);
         students[i].cgpa = (float)cJSON_GetObjectItem(studentObj, "cgpa")->valuedouble;
@@ -403,6 +405,7 @@ int loadData(struct Student *students, int maxCount)
 void menu(struct Student *s)
 {
     students = s;
+    // memset(students, 0, sizeof(students));
     // count =    loadData(students, 4);
     int choice;
 
@@ -425,6 +428,7 @@ void menu(struct Student *s)
             addStudent();
             break;
         case 2:
+            printf("%s", students[0].roll_no);
             displayStudents();
             break;
         case 3:

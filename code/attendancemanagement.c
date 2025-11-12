@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../header files/attendancemanagement.h"
+#include "../header files/studentmanagement.h"
 
 
 // Subjects ke naam
@@ -16,7 +17,7 @@ void takeAttendance(struct Student *students, int totalStudents)
         for (int j = 0; j < totalStudents; j++)
         {
             int status;
-            printf("Roll No: %s | Name: %s\n", (students + j)->rollNumber, (students + j)->name);
+            printf("Roll No: %s | Name: %s\n", (students + j)->roll_no, (students + j)->name);
             printf("Enter attendance (1 = Present, 0 = Absent): ");
             scanf("%d", &status);
 
@@ -30,6 +31,7 @@ void takeAttendance(struct Student *students, int totalStudents)
             (students + j)->attendance[i] = status;
         }
     }
+    return ;
 }
 
 // Function 2: Attendance show karna
@@ -47,7 +49,7 @@ void displayAttendance(struct Student *students, int totalStudents)
 
     for (int i = 0; i < totalStudents; i++)
     {
-        printf("%-10s\t%-15s", (students + i)->rollNumber, (students + i)->name);
+        printf("%-10s\t%-15s", (students + i)->roll_no, (students + i)->name);
         for (int j = 0; j < SUBJECTS; j++)
         {
             printf("%c\t", ((students + i)->attendance[j] == 1) ? 'P' : 'A');
@@ -101,15 +103,8 @@ void checkTotalAttendance(struct Student *students, int totalStudents)
     printf("Attendance Percentage: %.2f%%\n", (presentCount * 100.0) / totalStudents);
 }
 
-int attendance_management()
+int attendance_management(struct Student *students)
 {
-    struct Student students[MAX_STUDENTS] = {
-        {"Ali Khan", "BSCS001"},
-        {"Sara Ahmed", "BSCS002"},
-        {"Hassan Raza", "BSCS003"},
-        {"Fatima Noor", "BSCS004"},
-        {"Ayesha Malik", "BSCS005"}
-    };
 
     int totalStudents = 5;
     int choice;
