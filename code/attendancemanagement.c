@@ -103,7 +103,7 @@ void checkTotalAttendance(struct Student *students, int totalStudents)
     printf("Attendance Percentage: %.2f%%\n", (presentCount * 100.0) / totalStudents);
 }
 
-int attendance_management(struct Student *students)
+void attendance_management(struct Student *students, int totalStdnts)
 {
 
     int totalStudents = 5;
@@ -123,6 +123,7 @@ int attendance_management(struct Student *students)
         {
             case 1:
                 takeAttendance(students, totalStudents);
+                saveDataArray(students, totalStdnts, 1);
                 break;
             case 2:
                 displayAttendance(students, totalStudents);
@@ -131,12 +132,12 @@ int attendance_management(struct Student *students)
                 checkTotalAttendance(students, totalStudents);
                 break;
             case 4:
-                printf("Exiting program...\n");
-                return 0;
+                printf("Exiting Attendance Management system...\n");
+                return ;
             default:
                 printf("Invalid choice! Try again.\n");
         }
     }
 
-    return 0;
+    return ;
 }

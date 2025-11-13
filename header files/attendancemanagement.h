@@ -16,5 +16,7 @@ extern char subjects[SUBJECTS][20];
 void takeAttendance(struct Student *students, int totalStudents);
 void displayAttendance(struct Student *students, int totalStudents);
 void checkTotalAttendance(struct Student *students, int totalStudents);
+void attendance_management(struct Student *students, int);
+
 
 #endif

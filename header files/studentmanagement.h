@@ -48,7 +48,7 @@ void displayStudents();
 void searchStudent();
 void editStudent();
 void deleteStudent();
-void saveDataArray(struct Student *s, int cnt);
+void saveDataArray(struct Student *s, int cnt, int);
 int loadData(struct Student *students, int maxCount);
 void menu(struct Student *s);
 #endif

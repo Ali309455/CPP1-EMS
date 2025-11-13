@@ -12,8 +12,9 @@ struct Student *students ;
 
 int count = 0;
 
-void saveDataArray(struct Student *s, int count)
+void saveDataArray(struct Student *s, int count, int flag_attendance)
 {
+
     cJSON *jsonArray = cJSON_CreateArray();
 
     for (int i = 0; i < count; i++)
@@ -25,8 +26,14 @@ void saveDataArray(struct Student *s, int count)
         cJSON_AddStringToObject(studentObj, "semester", s[i].semester);
         cJSON_AddNumberToObject(studentObj, "cgpa", s[i].cgpa);
         int attendanceArr[SUBJECTS];
-        for (int j = 0; j < SUBJECTS; j++)
-            attendanceArr[j] = 0;
+        if (flag_attendance == 1){
+            for (int j = 0; j < SUBJECTS; j++){
+                attendanceArr[j] = s[i].attendance[j];}
+            }
+            else {
+                for (int j = 0; j < SUBJECTS; j++)
+                attendanceArr[j] = 0;
+            }
         cJSON *attendanceArray = cJSON_CreateIntArray(attendanceArr, SUBJECTS);
         cJSON_AddItemToObject(studentObj, "attendance", attendanceArray);
         // Nested marks object
@@ -120,7 +127,7 @@ void addStudent()
 
         count++;
         printf("Student added successfully!\n");
-        saveDataArray(students, count);
+        saveDataArray(students, count, 0);
     }
 }
 
@@ -258,7 +265,6 @@ int loadData(struct Student *students, int maxCount)
     {
         cJSON *studentObj = cJSON_GetArrayItem(jsonArray, i);
         strcpy(students[i].roll_no, cJSON_GetObjectItem(studentObj, "roll_no")->valuestring);
-        printf("%s\n", students[i].roll_no);
         strcpy(students[i].name, cJSON_GetObjectItem(studentObj, "name")->valuestring);
         strcpy(students[i].semester, cJSON_GetObjectItem(studentObj, "semester")->valuestring);
         students[i].cgpa = (float)cJSON_GetObjectItem(studentObj, "cgpa")->valuedouble;
@@ -361,52 +367,9 @@ int loadData(struct Student *students, int maxCount)
 }
 
 
-// void sittingArrangement()
-// {
-//     int rooms, capacity;
-//     printf("Enter number of rooms: ");
-//     scanf("%d", &rooms);
-//     printf("Enter capacity of each room: ");
-//     scanf("%d", &capacity);
-
-//     int totalSeats = rooms * capacity;
-
-//     if (count > totalSeats)
-//     {
-//         printf("Not enough seats for all students! Total seats: %d, Students: %d\n",
-//                totalSeats, count);
-//         return;
-//     }
-
-//     printf("\n===== Sitting Arrangement =====\n");
-
-//     int studentIndex = 0;
-
-//     for (int r = 1; r <= rooms; r++)
-//     {
-//         printf("\nRoom %d:\n", r);
-//         for (int s = 1; s <= capacity; s++)
-//         {
-//             if (studentIndex < count)
-//             {
-//                 struct Student *st = students + studentIndex;
-//                 printf("%s(%s)\t", (*st).name, (*st).roll_no);
-//                 studentIndex++;
-//             }
-//             else
-//             {
-//                 printf("Empty\t");
-//             }
-//         }
-//         printf("\n");
-//     }
-// }
-
-void menu(struct Student *s)
-{
-    students = s;
-    // memset(students, 0, sizeof(students));
+void menu(struct Student *s){
     // count =    loadData(students, 4);
+    students = s;
     int choice;
 
     do
@@ -428,7 +391,6 @@ void menu(struct Student *s)
             addStudent();
             break;
         case 2:
-            printf("%s", students[0].roll_no);
             displayStudents();
             break;
         case 3:
@@ -442,7 +404,7 @@ void menu(struct Student *s)
             break;
         case 6:
             printf("%d\n", count);
-            saveDataArray(students, count);
+            saveDataArray(students, count, 0);
             printf("Data saved. Exiting...\n");
             break;
         default:

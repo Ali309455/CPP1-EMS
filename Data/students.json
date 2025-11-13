@@ -3,7 +3,7 @@
 		"name":	"Ali",
 		"semester":	"fall",
 		"cgpa":	0,
-		"attendance":	[0, 0, 0, 0, 0, 0],
+		"attendance":	[1, 1, 1, 1, 1, 1],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -29,7 +29,7 @@
 		"name":	"Abdul Wahab",
 		"semester":	"fall",
 		"cgpa":	0,
-		"attendance":	[0, 0, 0, 0, 0, 0],
+		"attendance":	[1, 1, 1, 1, 1, 1],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -55,7 +55,7 @@
 		"name":	"rafay",
 		"semester":	"fall",
 		"cgpa":	0,
-		"attendance":	[0, 0, 0, 0, 0, 0],
+		"attendance":	[1, 1, 1, 1, 1, 1],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -81,7 +81,7 @@
 		"name":	"DKJ",
 		"semester":	"fall",
 		"cgpa":	0,
-		"attendance":	[0, 0, 0, 0, 0, 0],
+		"attendance":	[1, 1, 1, 1, 1, 1],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
@@ -107,7 +107,7 @@
 		"name":	"r",
 		"semester":	"fa",
 		"cgpa":	0,
-		"attendance":	[0, 0, 0, 0, 0, 0],
+		"attendance":	[1, 1, 1, 1, 1, 1],
 		"marks_info":	{
 			"itfa":	0,
 			"cp":	0,
