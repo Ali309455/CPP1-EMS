@@ -2,55 +2,18 @@
 #define RESULTPROCESSING_
 
 #include <stdio.h>
-
-
-// ======================= CONSTANTS =======================
-#define MAX 100
-
-// ======================= STRUCTURES ======================
-struct marks
-{
-    int itfa;
-    int cp;
-    int ap;
-    int pst;
-    int cag;
-    int fe;
-
-    int itfa_credithours;
-    int cp_credithours;
-    int ap_credithours;
-    int pst_credithours;
-    int cag_credithours;
-    int fe_credithours;
-
-    float itfa_gradescore;
-    float cp_gradescore;
-    float ap_gradescore;
-    float pst_gradescore;
-    float cag_gradescore;
-    float fe_gradescore;
-};
-
-struct Student
-{
-    char roll_no[20];
-    char name[20];
-    char year_sem[20];
-    float cgpa;
-    struct marks marks_info;
-};
+#include "../header files/studentmanagement.h"
 
 // ======================= GLOBAL VARIABLES =======================
-extern int CNT;  // defined in resultprocessing.c
+  // defined in resultprocessing.c
 
 // ======================= FUNCTION DECLARATIONS =======================
 
 // Load data from JSON file into Student array
-int load_Data(struct Student *students, int maxCount);
+// int load_Data(struct Student *students, int maxCount);
 
 // Save array of Students into JSON file
-void save_DataArray(struct Student *s, int count);
+// void save_DataArray(struct Student *s, int count);
 
 // Calculate grade point based on marks
 float grade_points(int marks);
@@ -77,6 +40,6 @@ void search_marks_data(struct Student *pstr, char roll_no[19]);
 void delete_marks_data(struct Student *pstr, char roll_no[19]);
 
 // Entry point for marks and result tabulation menu
-void tabulation(void);
+void tabulation(struct Student *pstr , int );
 
 #endif // RESULTPROCESSING_H
