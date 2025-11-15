@@ -4,7 +4,7 @@
 #include <string.h>
 #include "../header files/cJSON.h"
 
-void load_credentials(struct portal_info *cred)
+void load_credentials(struct portal_info *cred, int flag)
 {
     // --- Validate input pointer ---
     if (cred == NULL)
@@ -82,7 +82,7 @@ void load_credentials(struct portal_info *cred)
     // Ensure null termination
     cred->teacher_password[sizeof(cred->teacher_password) - 1] = '\0';
     cred->admin_password[sizeof(cred->admin_password) - 1] = '\0';
-
+if (flag == 1)
     printf("Credentials loaded successfully.\n");
 
     // --- Clean up ---
@@ -127,7 +127,7 @@ void forget_password(struct portal_info cred)
 {
     char ans1[25];
     char ans2[25];
-    printf("\t ----> You need to answer these 2 security Questions <----\n");
+    printf("n ----> You need to answer these 2 security Questions <----\n");
     printf("Q1: What is your favorite color?\n");
     scanf("%s", &ans1);
     printf("Q2: What is your favorite animal?\n");
@@ -142,11 +142,6 @@ void forget_password(struct portal_info cred)
     }
 }
 
-void teacher_interface(void)
-{
-    printf("---------> Teacher Interface <---------\n");
-}
-
 void change_password(int choice, struct portal_info *cred)
 {
     char current_password[30];
@@ -159,18 +154,30 @@ void change_password(int choice, struct portal_info *cred)
     case 1:
         printf("Enter Current Password: ");
         scanf("%s", &current_password);
-        printf("Enter New Password: ");
-        scanf("%s", &new_password);
-        strcpy(cred->teacher_password, new_password);
-        save_password(*cred);
+        if (strcmp(cred->teacher_password, current_password) == 0)
+        {
+            printf("Enter New Password: ");
+            scanf("%s", &new_password);
+            strcpy(cred->teacher_password, new_password);
+            save_password(*cred);
+        }
+        else
+        {
+            printf("Wrong Password\n");
+        }
         break;
     case 2:
         printf("Enter Current Password: ");
         scanf("%s", &current_password);
-        printf("Enter New Password: ");
-        scanf("%s", &new_password);
-        strcpy(cred->teacher_password, new_password);
-        save_password(*cred);
+        if (strcmp(cred->admin_password, current_password) == 0)
+        {
+            printf("Enter New Password: ");
+            scanf("%s", &new_password);
+            strcpy(cred->admin_password, new_password);
+            save_password(*cred);
+        }
+        else 
+            printf("Wrong Password\n");
         break;
 
     default:
@@ -181,7 +188,7 @@ void change_password(int choice, struct portal_info *cred)
 void Admin_interface(struct portal_info *cred)
 {
     int admin_choice;
-    printf("---------> Admin Interface <---------\n");
+    printf("---------------------> Admin Interface <---------------------\n");
     printf("Enter 1 to change password of Teachers\n");
     printf("Enter 2 to change Password of Admin\n");
     printf("Enter 3 if you forget password\n ");
@@ -210,12 +217,13 @@ void first_time_login(struct portal_info *cred)
     strncpy(cred->q2, ans2, sizeof(cred->q2) - 1);
     save_password(*cred);
 }
-void login(struct portal_info cred)
+int login(struct portal_info cred)
 {
     char password[30];
     int status_choice;
-    printf("-----------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <--------------\n");
-    printf("Enter Your Status: \n 0 -> Student \t 1 -> Teacher \t 2->Admin \n");
+    printf("------------------------------------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <----------------------\n");
+    printf("\n0-> Student \n1-> Teacher\n2-> Admin \n");
+    printf("Enter your status: ");
     scanf("%d", &status_choice);
     if (status_choice == 1 || status_choice == 2)
     {
@@ -224,29 +232,32 @@ void login(struct portal_info cred)
         if (status_choice == 1 && strcmp(password, cred.teacher_password) == 0)
         {
             printf("Your Password is Correct!!\n ");
-            teacher_interface();
+            return 1;
         }
         else if (status_choice == 2 && strcmp(password, cred.admin_password) == 0)
         {
             printf("Your Password is Correct!!\n ");
-            Admin_interface(&cred);
+            return 2;
         }
         else
         {
             printf("Invalid password you can only access student interface\n");
         }
     }
-    else{
-        printf("Student Interface\n");
+    else
+    {
+        printf("----------> Student Interface <----------\n");
+        return 0;
     }
 }
 
-void portal (void)
+int portal(void)
 {
     struct portal_info credentials;
     memset(&credentials, 0, sizeof(credentials));
-    load_credentials(&credentials);
+    load_credentials(&credentials, 0);
     if (strlen(credentials.admin_password) == 0)
         first_time_login(&credentials);
-    login(credentials);
+    int status = login(credentials);
+    return status;
 }

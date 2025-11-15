@@ -19,7 +19,7 @@
 float grade_points(int marks);
 
 // Print all student data in table format
-void printdata(struct Student *pstr);
+void printdata(struct Student *pstr, int );
 
 // Add marks interactively
 void add_marks_data(struct Student *arr, int count);
@@ -31,10 +31,10 @@ void printMenu(void);
 void calculate_cgpa(struct Student *pstr, int count);
 
 // Edit a specific student’s marks using roll number
-void edit_marks_data(struct Student *pstr, char roll_no[19]);
+void edit_marks_data(struct Student *pstr, char roll_no[19], int);
 
 // Search and display a specific student’s marks
-void search_marks_data(struct Student *pstr, char roll_no[19]);
+void search_marks_data(struct Student *pstr, char roll_no[19], int);
 
 // Delete a student’s record by roll number
 void delete_marks_data(struct Student *pstr, char roll_no[19]);

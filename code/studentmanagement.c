@@ -8,7 +8,7 @@
 #include <string.h>
 #include "../header files/cJSON.h"
 
-struct Student *students ;
+struct Student *students;
 
 int count = 0;
 
@@ -26,19 +26,22 @@ void saveDataArray(struct Student *s, int count, int flag_attendance)
         cJSON_AddStringToObject(studentObj, "semester", s[i].semester);
         cJSON_AddNumberToObject(studentObj, "cgpa", s[i].cgpa);
         int attendanceArr[SUBJECTS];
-        if (flag_attendance == 1){
-            for (int j = 0; j < SUBJECTS; j++){
-                attendanceArr[j] = s[i].attendance[j];}
+        if (flag_attendance == 1)
+        {
+            for (int j = 0; j < SUBJECTS; j++)
+            {
+                attendanceArr[j] = s[i].attendance[j];
             }
-            else {
-                for (int j = 0; j < SUBJECTS; j++)
+        }
+        else
+        {
+            for (int j = 0; j < SUBJECTS; j++)
                 attendanceArr[j] = 0;
-            }
+        }
         cJSON *attendanceArray = cJSON_CreateIntArray(attendanceArr, SUBJECTS);
         cJSON_AddItemToObject(studentObj, "attendance", attendanceArray);
         // Nested marks object
         cJSON *marksObj = cJSON_CreateObject();
-
         cJSON_AddNumberToObject(marksObj, "itfa", s[i].marks_info.itfa);
         cJSON_AddNumberToObject(marksObj, "cp", s[i].marks_info.cp);
         cJSON_AddNumberToObject(marksObj, "ap", s[i].marks_info.ap);
@@ -127,7 +130,7 @@ void addStudent()
 
         count++;
         printf("Student added successfully!\n");
-        saveDataArray(students, count, 0);
+        saveDataArray(students, count, 1);
     }
 }
 
@@ -150,23 +153,30 @@ void displayStudents()
     }
 }
 
-void searchStudent()
+void searchStudent(struct Student *students, int cnt)
 {
     char roll[10];
     printf("\nEnter Roll Number to search: ");
     scanf("%s", roll);
-
+    int flag = 1;
     for (int i = 0; i < count; i++)
     {
         struct Student *s = students + i;
         if (strcmp((*s).roll_no, roll) == 0)
-        {
+        {   flag = 0;
             printf("\nStudent Found:\n");
-            printf("Roll No: %s\nName: %s\nSemester: %s\nCGPA: %.2f\n",
-                   (*s).roll_no, (*s).name, (*s).semester, (*s).cgpa);
-            return;
+            printf("---------------------------------------------------------------------------------------------\n");
+            printf("| %-10s | %-20s | %-10s | %-6s |\n",
+                   "Roll No", "Name", "Semester", "CGPA");
+            printf("---------------------------------------------------------------------------------------------\n");
+
+            printf("| %-10s | %-20s | %-10s | %-6.2f |\n",
+                   s->roll_no, s->name, s->semester, s->cgpa);
+
+            printf("---------------------------------------------------------------------------------------------\n");
         }
     }
+    if(flag)
     printf("Student not found!\n");
 }
 
@@ -366,21 +376,21 @@ int loadData(struct Student *students, int maxCount)
     return cnt;
 }
 
-
-void menu(struct Student *s){
+void menu(struct Student *s)
+{
     // count =    loadData(students, 4);
     students = s;
     int choice;
 
     do
     {
-        printf("\n===== Student Management System =====\n");
-        printf("1. Add Student\n");
-        printf("2. Display All Students\n");
-        printf("3. Search Student\n");
-        printf("4. Edit Student\n");
-        printf("5. Delete Student\n");
-        printf("6. Save & Exit\n");
+        printf("\n =================================== Student Management System ==================================\n");
+        printf("\t1. Add Student\n");
+        printf("\t2. Display All Students\n");
+        printf("\t3. Search Student\n");
+        printf("\t4. Edit Student\n");
+        printf("\t5. Delete Student\n");
+        printf("\t6. Save & Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         getchar();
@@ -394,7 +404,7 @@ void menu(struct Student *s){
             displayStudents();
             break;
         case 3:
-            searchStudent();
+            searchStudent(students, count);
             break;
         case 4:
             editStudent();
@@ -403,9 +413,7 @@ void menu(struct Student *s){
             deleteStudent();
             break;
         case 6:
-            printf("%d\n", count);
-            saveDataArray(students, count, 0);
-            printf("Data saved. Exiting...\n");
+            saveDataArray(students, count, 1);
             break;
         default:
             printf("Invalid choice! Try again.\n");

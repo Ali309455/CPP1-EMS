@@ -16,13 +16,12 @@ struct portal_info
 };
 
 // Function declarations
-void load_credentials(struct portal_info *cred);
+void load_credentials(struct portal_info *cred, int);
 void save_password(struct portal_info cred);
 void forget_password(struct portal_info cred);
 void change_password(int choice, struct portal_info *cred);
 void Admin_interface(struct portal_info *cred);
-void teacher_interface(void);
 void first_time_login(struct portal_info *cred);
-void login(struct portal_info cred);
-void portal();
+int login(struct portal_info cred);
+int portal();
 #endif // PORTAL_H

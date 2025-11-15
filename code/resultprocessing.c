@@ -56,18 +56,18 @@ float grade_points(int marks)
     }
 }
 
-void printdata(struct Student *pstr)
+void printdata(struct Student *pstr, int totalstdns)
 {
     printf("=====================================================================================================\n");
-    printf("| %-7s | %-10s | %-4s | %-4s | %-4s | %-4s | %-4s | %-4s | %-6s |\n",
+    printf("| %-7s | %-20s | %-4s | %-4s | %-4s | %-4s | %-4s | %-4s | %-6s |\n",
            "Roll No", "Name", "ITFA", "CP", "AP", "PST", "CAG", "FE", "CGPA");
     printf("=====================================================================================================\n");
 
-    for (int i = 0; i < CNT; i++)
+    for (int i = 0; i < totalstdns; i++)
     {
         struct marks m = pstr[i].marks_info;
 
-        printf("| %-7s | %-15s | %-4d | %-4d | %-4d | %-4d | %-4d | %-4d | %-6.2f |\n",
+        printf("| %-7s | %-20s | %-4d | %-4d | %-4d | %-4d | %-4d | %-4d | %-6.2f |\n",
                pstr[i].roll_no, pstr[i].name,
                m.itfa, m.cp, m.ap, m.pst, m.cag, m.fe,
                pstr[i].cgpa);
@@ -77,60 +77,43 @@ void printdata(struct Student *pstr)
 }
 void add_marks_data(struct Student *arr, int count)
 {
-    printf("-----> Enter -1 to exit add marks section <------ \n");
     for (int i = 0; i < count; i++)
     {
         printf("Enter %s(%s)   marks in itfa: ", arr[i].roll_no, arr[i].name);
         scanf("%d", &arr[i].marks_info.itfa);
-        if (arr[i].marks_info.itfa == -1)
-            break;
         printf("Enter %s(%s)  marks in cp: ", arr[i].roll_no, arr[i].name);
         scanf("%d", &arr[i].marks_info.cp);
-        if (arr[i].marks_info.cp == -1)
-            break;
         printf("Enter %s(%s)  marks in ap: ", arr[i].roll_no, arr[i].name);
         scanf("%d", &arr[i].marks_info.ap);
-        if (arr[i].marks_info.ap == -1)
-            break;
         printf("Enter %s(%s)  marks in pst: ", arr[i].roll_no, arr[i].name);
         scanf("%d", &arr[i].marks_info.pst);
-        if (arr[i].marks_info.pst == -1)
-            break;
         printf("Enter %s(%s)  marks in cag: ", arr[i].roll_no, arr[i].name);
         scanf("%d", &arr[i].marks_info.cag);
-        if (arr[i].marks_info.cag == -1)
-            break;
         printf("Enter %s(%s)  marks in fe: ", arr[i].roll_no, arr[i].name);
         scanf("%d", &arr[i].marks_info.fe);
-        if (arr[i].marks_info.fe == -1)
-            break;
         if (i == 0)
         {
             printf("-----> Same credit hours will be added for every Student <------\n");
             printf("Enter %s(%s)  itfa_credithours: ", arr[i].roll_no, arr[i].name);
             scanf("%d", &arr[i].marks_info.itfa_credithours);
-            if (arr[i].marks_info.itfa_credithours == -1)
-                break;
+
             printf("Enter %s(%s)  cp_credithours: ", arr[i].roll_no, arr[i].name);
             scanf("%d", &arr[i].marks_info.cp_credithours);
-            if (arr[i].marks_info.cp_credithours == -1)
-                break;
+
             printf("Enter %s(%s)  ap_credithours: ", arr[i].roll_no, arr[i].name);
             scanf("%d", &arr[i].marks_info.ap_credithours);
-            if (arr[i].marks_info.ap_credithours == -1)
-                break;
+
             printf("Enter %s(%s)  pst_credithours: ", arr[i].roll_no, arr[i].name);
             scanf("%d", &arr[i].marks_info.pst_credithours);
-            if (arr[i].marks_info.pst_credithours == -1)
-                break;
+
             printf("Enter %s(%s)  cag_credithours: ", arr[i].roll_no, arr[i].name);
             scanf("%d", &arr[i].marks_info.cag_credithours);
-            if (arr[i].marks_info.itfa == -1)
-                break;
+
             printf("Enter %s(%s)  fe_credithours: ", arr[i].roll_no, arr[i].name);
             scanf("%d", &arr[i].marks_info.fe_credithours);
         }
-        else {
+        else
+        {
             arr[i].marks_info.itfa_credithours = arr[0].marks_info.itfa_credithours;
             arr[i].marks_info.cp_credithours = arr[0].marks_info.cp_credithours;
             arr[i].marks_info.ap_credithours = arr[0].marks_info.ap_credithours;
@@ -149,9 +132,9 @@ void add_marks_data(struct Student *arr, int count)
 
 void printMenu()
 {
-    printf("\t ------> MARKS AND RESULT PROCESSIONG \t <------\n");
-    printf("\t1. Add marks data\n");
-    printf("\t2. Update marks data\n");
+    printf("\t -----------------> MARKS AND RESULT PROCESSIONG \t <-----------------\n");
+    printf("\t1. Add marks data (NOTE: if u want to add all student's marks data one by one )\n");
+    printf("\t2. Update marks data (NOTE: if u want to add 1 student's marks data OR update existing Student's marks data )\n");
     printf("\t3. Search marks data\n");
     printf("\t4. Calculate CGPA\n");
     printf("\t5. Print data\n");
@@ -191,12 +174,12 @@ void calculate_cgpa(struct Student *pstr, int count)
         }
     }
     printf("\t ------> Every students cgpa is calculated based on the data <--------\n");
-    printdata(pstr);
+    printdata(pstr, count);
 }
-void edit_marks_data(struct Student *pstr, char roll_no[19])
+void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
 {
-    int index = 0;
-    for (int i = 0; i < CNT; i++)
+    int index = -1;
+    for (int i = 0; i < count; i++)
     {
         if (strcasecmp(pstr[i].roll_no, roll_no) == 0)
         {
@@ -204,7 +187,7 @@ void edit_marks_data(struct Student *pstr, char roll_no[19])
             break;
         }
     }
-    if (pstr[index].roll_no != NULL)
+    if (index != -1)
     {
         printf(" %s previous marks in itfa are: %d, Enter marks in itfa: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
         scanf("%d", &pstr[index].marks_info.itfa);
@@ -218,6 +201,12 @@ void edit_marks_data(struct Student *pstr, char roll_no[19])
         scanf("%d", &pstr[index].marks_info.cag);
         printf(" %s previous marks in FE are: %d, Enter marks in FE: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
         scanf("%d", &pstr[index].marks_info.fe);
+        pstr[index].marks_info.itfa_credithours = pstr[0].marks_info.itfa_credithours;
+        pstr[index].marks_info.cp_credithours = pstr[0].marks_info.cp_credithours;
+        pstr[index].marks_info.ap_credithours = pstr[0].marks_info.ap_credithours;
+        pstr[index].marks_info.pst_credithours = pstr[0].marks_info.pst_credithours;
+        pstr[index].marks_info.cag_credithours = pstr[0].marks_info.cag_credithours;
+        pstr[index].marks_info.fe_credithours = pstr[0].marks_info.fe_credithours;
         pstr[index].marks_info.itfa_gradescore = grade_points(pstr[index].marks_info.itfa);
         pstr[index].marks_info.cp_gradescore = grade_points(pstr[index].marks_info.cp);
         pstr[index].marks_info.ap_gradescore = grade_points(pstr[index].marks_info.ap);
@@ -229,27 +218,29 @@ void edit_marks_data(struct Student *pstr, char roll_no[19])
     else
         printf("\t ------> %S Not Found <--------\n", roll_no);
 }
-void search_marks_data(struct Student *pstr, char roll_no[19])
+void search_marks_data(struct Student *pstr, char roll_no[19], int count)
 {
-    for (int i = 0; i < CNT; i++)
+    for (int i = 0; i < count; i++)
     {
         if (strcasecmp(pstr[i].roll_no, roll_no) == 0)
         {
             printf("=====================================================================================================\n");
-            printf("| %-7s | %-10s | %-4s | %-4s | %-4s | %-4s | %-4s | %-4s | %-6s |\n",
+            printf("| %-7s | %-15s | %-4s | %-4s | %-4s | %-4s | %-4s | %-4s | %-6s |\n",
                    "Roll No", "Name", "ITFA", "CP", "AP", "PST", "CAG", "FE", "CGPA");
             printf("=====================================================================================================\n");
 
             struct marks m = pstr[i].marks_info;
 
-            printf("| %-7s | %-10s | %-4d | %-4d | %-4d | %-4d | %-4d | %-4d | %-6.2f |\n",
+            printf("| %-7s | %-15s | %-4d | %-4d | %-4d | %-4d | %-4d | %-4d | %-6.2f |\n",
                    pstr[i].roll_no, pstr[i].name,
                    m.itfa, m.cp, m.ap, m.pst, m.cag, m.fe,
                    pstr[i].cgpa);
 
             printf("=====================================================================================================\n");
+            return;
         }
     }
+    printf("\t ------> %S Not Found <--------\n", roll_no);
 }
 void delete_marks_data(struct Student *pstr, char roll_no[19])
 {
@@ -273,55 +264,63 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
 }
 void tabulation(struct Student *s, int totalstdnts)
 {
-    
-    students = s;
+
+    printf("%s", s[0].roll_no);
     int choice;
-    CNT = totalstdnts;
-    printf("\t-------> THE DATA IS <-------\n ");
-    printdata(students);
+    printf("\t----------------------> THE DATA IS <----------------------------\n ");
+    printdata(s, totalstdnts);
     while (1)
     {
         printMenu();
         printf("Enter Your Choice ( 1-5 ) : ");
         scanf("%d", &choice);
         char roll_no[19];
-        if (choice >= 1 && choice <= 4)
+        if (choice >= 1 && choice <= 5)
         {
             switch (choice)
             {
             case 1:
-                add_marks_data(students, CNT);
-                saveDataArray(students, CNT, 0);
-                printf("\t ------> Your marks data is saved successfully and the data is : \n");
-                printdata(students);
+                add_marks_data(s, totalstdnts);
+                saveDataArray(s, totalstdnts, 1);
+                printf("\t------------> Your marks data is saved successfully and the data is : \n");
+                printdata(s, totalstdnts);
                 break;
             case 2:
-                if (CNT == 0)
+                if (totalstdnts == 0)
                 {
                     printf("NO DATA STORED\n");
                     break;
                 }
                 printf("Enter Roll No: ");
                 scanf("%s", roll_no);
-                edit_marks_data(students, roll_no);
+                edit_marks_data(s, roll_no, totalstdnts);
+                saveDataArray(s, totalstdnts, 1);
                 break;
             case 3:
-                if (CNT == 0)
+                if (totalstdnts == 0)
                 {
                     printf("NO DATA STORED\n");
                     break;
                 }
                 printf("Enter Roll No: ");
                 scanf("%s", roll_no);
-                search_marks_data(students, roll_no);
+                search_marks_data(s, roll_no, totalstdnts);
                 break;
             case 4:
-                if (CNT == 0)
+                if (totalstdnts == 0)
                 {
                     printf("NO DATA STORED\n");
                     break;
                 }
-                calculate_cgpa(students, CNT);
+                calculate_cgpa(s, totalstdnts);
+                break;
+            case 5:
+                if (totalstdnts == 0)
+                {
+                    printf("NO DATA STORED\n");
+                    break;
+                }
+                printdata(s, totalstdnts);
                 break;
 
             default:
@@ -330,7 +329,7 @@ void tabulation(struct Student *s, int totalstdnts)
         }
         else
         {
-            saveDataArray(students, CNT,0);
+            saveDataArray(s, totalstdnts, 1);
             return;
         }
     }

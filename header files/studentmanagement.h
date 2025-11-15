@@ -45,7 +45,7 @@ extern int count;
 
 void addStudent();
 void displayStudents();
-void searchStudent();
+void searchStudent(struct Student *students, int cnt);
 void editStudent();
 void deleteStudent();
 void saveDataArray(struct Student *s, int cnt, int);

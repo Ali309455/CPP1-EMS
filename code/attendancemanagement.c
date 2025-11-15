@@ -43,21 +43,28 @@ void displayAttendance(struct Student *students, int totalStudents)
         return;
     }
 
-    printf("\n================= Attendance Record =================\n");
-    printf("Roll No\t\tName\t\tITFA\tCP\tPST\tEnglish\tAP\tCAG\n");
-    printf("------------------------------------------------------\n");
+    printf("\n============================================ Attendance Record ================================================\n");
+printf("| %-10s | %-20s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s |\n",
+       "Roll No", "Name", "ITFA", "CP", "PST", "English", "AP", "CAG", "Total");
+printf("============================================================================================================\n");
 
-    for (int i = 0; i < totalStudents; i++)
+for (int i = 0; i < totalStudents; i++)
+{
+    int totalPresent = 0;
+    printf("| %-10s | %-20s |", students[i].roll_no, students[i].name);
+
+    for (int j = 0; j < SUBJECTS; j++)
     {
-        printf("%-10s\t%-15s", (students + i)->roll_no, (students + i)->name);
-        for (int j = 0; j < SUBJECTS; j++)
-        {
-            printf("%c\t", ((students + i)->attendance[j] == 1) ? 'P' : 'A');
-        }
-        printf("\n");
+        char status = (students[i].attendance[j] == 1) ? 'P' : 'A';
+        if (status == 'P') totalPresent++;
+        printf(" %-7c |", status);
     }
 
-    printf("------------------------------------------------------\n");
+    printf(" %-7d |\n", totalPresent); // Optional: show total present days
+}
+
+printf("============================================================================================================\n");
+
 }
 
 // Function 3: Kisi ek subject ki total attendance check karna
@@ -106,7 +113,7 @@ void checkTotalAttendance(struct Student *students, int totalStudents)
 void attendance_management(struct Student *students, int totalStdnts)
 {
 
-    int totalStudents = 5;
+    int totalStudents = totalStdnts;
     int choice;
 
     while (1)
