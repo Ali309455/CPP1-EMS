@@ -56,7 +56,8 @@ int choice;
         printf("2. Student Prior Information Dashboard\n");
         printf("3. Student Result Processing\n");
         printf("4. Attendance Management\n");
-        printf("5. Exit\n");
+        printf("5. Sitting Arrangement\n");
+        printf("6. Exit\n");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -75,9 +76,11 @@ int choice;
             attendance_management(s, count);
             break;
         case 5:
-            printf("Exiting from student Dashboard....\n");
+            sittingArrangement(count, s);
             return;
-        
+        case 6:
+            printf("Exiting from Dashboard....\n");
+            return;
         default:
             printf("Invalid choice. Please try again.\n");
             break;
