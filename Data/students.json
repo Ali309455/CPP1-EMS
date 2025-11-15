@@ -102,30 +102,4 @@
 			"cag_gradescore":	2,
 			"fe_gradescore":	4
 		}
-	}, {
-		"roll_no":	"cs-053",
-		"name":	"Panda",
-		"semester":	"fall",
-		"cgpa":	3.7000000476837158,
-		"attendance":	[1, 1, 1, 1, 1, 1],
-		"marks_info":	{
-			"itfa":	80,
-			"cp":	80,
-			"ap":	80,
-			"pst":	80,
-			"cag":	80,
-			"fe":	80,
-			"itfa_credithours":	3,
-			"cp_credithours":	4,
-			"ap_credithours":	3,
-			"pst_credithours":	2,
-			"cag_credithours":	3,
-			"fe_credithours":	3,
-			"itfa_gradescore":	3.7000000476837158,
-			"cp_gradescore":	3.7000000476837158,
-			"ap_gradescore":	3.7000000476837158,
-			"pst_gradescore":	3.7000000476837158,
-			"cag_gradescore":	3.7000000476837158,
-			"fe_gradescore":	3.7000000476837158
-		}
 	}]
