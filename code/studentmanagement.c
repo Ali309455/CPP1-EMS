@@ -74,7 +74,7 @@ void saveDataArray(struct Student *s, int count, int flag_attendance)
     char *json_str = cJSON_Print(jsonArray);
 
     //  Write JSON to file
-    FILE *fp = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "w");
+    FILE *fp = fopen("../Data/students.json", "w");
     if (fp == NULL)
     {
         printf("Error: Unable to open file.\n");
@@ -243,7 +243,7 @@ void deleteStudent()
 
 int loadData(struct Student *students, int maxCount)
 {
-    FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\students.json", "r");
+    FILE *file = fopen("../Data/students.json", "r");
     if (!file)
     {
         perror("Error opening file");

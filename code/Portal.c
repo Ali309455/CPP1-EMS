@@ -14,7 +14,7 @@ void load_credentials(struct portal_info *cred, int flag)
     }
 
     // --- Open file for reading ---
-    FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\credentials.json", "r");
+    FILE *file = fopen("../Data/credentials.json", "r");
     if (file == NULL)
     {
         perror("Error opening credentials file");
@@ -98,7 +98,7 @@ void save_password(struct portal_info cred)
     cJSON_AddStringToObject(json, "q1", cred.q1);
     cJSON_AddStringToObject(json, "q2", cred.q2);
 
-    FILE *file = fopen("D:\\code\\FE-CPP1-EMS\\Data\\credentials.json", "w");
+    FILE *file = fopen("../Data/credentials.json", "w");
     if (file == NULL)
     {
         perror("Error opening credentials file");
