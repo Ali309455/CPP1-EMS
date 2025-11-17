@@ -145,7 +145,7 @@ void displayStudents()
     printf("\n%-10s %-20s %-15s %-5s\n", "Roll No", "Name", "Semester", "CGPA");
     printf("-------------------------------------------------------------\n");
 
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < cnt ;i++)
     {
         struct Student *s = students + i;
         printf("%-10s %-20s %-15s %.2f\n",
@@ -378,7 +378,7 @@ int loadData(struct Student *students, int maxCount)
 
 void menu(struct Student *s,int totalstdnts)
 {
-    count =    totalstdnts;
+    cnt =    totalstdnts;
     students = s;
     int choice;
 
@@ -411,6 +411,7 @@ void menu(struct Student *s,int totalstdnts)
             break;
         case 5:
             deleteStudent();
+            saveDataArray(students,cnt,1);
             break;
         case 6:
             saveDataArray(students, count, 1);
