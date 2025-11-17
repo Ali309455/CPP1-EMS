@@ -5,7 +5,7 @@
 #include "../header files/cJSON.h"
 
 int CNT;
-struct Student *students;
+// struct Student *students;
 
 float grade_points(int marks)
 {
@@ -161,6 +161,7 @@ void calculate_cgpa(struct Student *pstr, int count)
                             (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
                            (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
         }
+
         else
         {
             float temp = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
@@ -265,10 +266,7 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
 void tabulation(struct Student *s, int totalstdnts)
 {
 
-    printf("%s", s[0].roll_no);
     int choice;
-    printf("\t----------------------> THE DATA IS <----------------------------\n ");
-    printdata(s, totalstdnts);
     while (1)
     {
         printMenu();

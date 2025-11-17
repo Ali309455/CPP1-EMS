@@ -66,7 +66,7 @@ int choice;
             break;
         case 2:
         {
-            menu(s);
+            menu(s,cnt);
             break;
         }
         case 3:

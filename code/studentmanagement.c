@@ -10,7 +10,7 @@
 
 struct Student *students;
 
-int count = 0;
+int cnt = 0;
 
 void saveDataArray(struct Student *s, int count, int flag_attendance)
 {
@@ -153,7 +153,7 @@ void displayStudents()
     }
 }
 
-void searchStudent(struct Student *students, int cnt)
+void searchStudent(struct Student *students, int count)
 {
     char roll[10];
     printf("\nEnter Roll Number to search: ");
@@ -187,7 +187,7 @@ void editStudent()
     scanf("%s", roll);
     getchar();
 
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < cnt; i++)
     {
         struct Student *s = students + i;
         if (strcmp((*s).roll_no, roll) == 0)
@@ -220,7 +220,7 @@ void deleteStudent()
     printf("\nEnter Roll Number to delete: ");
     scanf("%s", roll);
 
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < cnt; i++)
     {
         struct Student *s = students + i;
         if (strcmp((*s).roll_no, roll) == 0)
@@ -230,7 +230,7 @@ void deleteStudent()
             {
                 *(students + j) = *(students + j + 1);
             }
-            count--;
+            cnt--;
             students = realloc(students, count * sizeof(struct Student));
             printf("Record deleted successfully!\n");
             break;
@@ -376,9 +376,9 @@ int loadData(struct Student *students, int maxCount)
     return cnt;
 }
 
-void menu(struct Student *s)
+void menu(struct Student *s,int totalstdnts)
 {
-    // count =    loadData(students, 4);
+    count =    totalstdnts;
     students = s;
     int choice;
 

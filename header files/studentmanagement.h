@@ -50,5 +50,5 @@ void editStudent();
 void deleteStudent();
 void saveDataArray(struct Student *s, int cnt, int);
 int loadData(struct Student *students, int maxCount);
-void menu(struct Student *s);
+void menu(struct Student *s,int);
 #endif
