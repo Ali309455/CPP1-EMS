@@ -2,7 +2,6 @@
 #define PORTAL_H
 
 #include <stdio.h>
-
 #define SUBJECTS 6
 #define MAX_STUDENTS 100
 
