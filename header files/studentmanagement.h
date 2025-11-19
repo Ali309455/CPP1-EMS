@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define SUBJECTS 6
+#define MAXCOUNT 120
 
 struct marks
 {
@@ -41,14 +42,14 @@ struct Student
 };
 
 extern struct Student *students;
-extern int count;
+// extern int count;
 
 void addStudent();
 void displayStudents();
 void searchStudent(struct Student *students, int cnt);
 void editStudent();
 void deleteStudent();
-void saveDataArray(struct Student *s, int cnt, int);
+void saveDataArray(struct Student *s, int cnt, int,int);
 int loadData(struct Student *students, int maxCount);
 void menu(struct Student *s,int);
 #endif

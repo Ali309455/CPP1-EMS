@@ -179,7 +179,9 @@ void change_password(int choice, struct portal_info *cred)
         else 
             printf("Wrong Password\n");
         break;
-
+    case 0:
+        printf("Exiting Security Dashboard ..\n");
+        return;
     default:
         printf("Invalid Choice");
         break;
@@ -191,7 +193,9 @@ void Admin_interface(struct portal_info *cred)
     printf("---------------------> Admin Interface <---------------------\n");
     printf("Enter 1 to change password of Teachers\n");
     printf("Enter 2 to change Password of Admin\n");
-    printf("Enter 3 if you forget password\n ");
+    printf("Enter 3 if you forget password\n");
+    printf("Enter 0 to exit Security Dashboard \n ");
+    printf("Enter your choice: ");
     scanf("%d", &admin_choice);
     change_password(admin_choice, cred);
 }

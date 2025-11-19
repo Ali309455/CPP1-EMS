@@ -8,11 +8,11 @@
 #include <string.h>
 #include "../header files/cJSON.h"
 
-struct Student *students;
+struct Student *stdnts = NULL;
 
 int cnt = 0;
 
-void saveDataArray(struct Student *s, int count, int flag_attendance)
+void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_marks)
 {
 
     cJSON *jsonArray = cJSON_CreateArray();
@@ -42,29 +42,58 @@ void saveDataArray(struct Student *s, int count, int flag_attendance)
         cJSON_AddItemToObject(studentObj, "attendance", attendanceArray);
         // Nested marks object
         cJSON *marksObj = cJSON_CreateObject();
-        cJSON_AddNumberToObject(marksObj, "itfa", s[i].marks_info.itfa);
-        cJSON_AddNumberToObject(marksObj, "cp", s[i].marks_info.cp);
-        cJSON_AddNumberToObject(marksObj, "ap", s[i].marks_info.ap);
-        cJSON_AddNumberToObject(marksObj, "pst", s[i].marks_info.pst);
-        cJSON_AddNumberToObject(marksObj, "cag", s[i].marks_info.cag);
-        cJSON_AddNumberToObject(marksObj, "fe", s[i].marks_info.fe);
+        if (flag_marks == 1)
+        {
+            cJSON_AddNumberToObject(marksObj, "itfa", s[i].marks_info.itfa);
+            cJSON_AddNumberToObject(marksObj, "cp", s[i].marks_info.cp);
+            cJSON_AddNumberToObject(marksObj, "ap", s[i].marks_info.ap);
+            cJSON_AddNumberToObject(marksObj, "pst", s[i].marks_info.pst);
+            cJSON_AddNumberToObject(marksObj, "cag", s[i].marks_info.cag);
+            cJSON_AddNumberToObject(marksObj, "fe", s[i].marks_info.fe);
 
-        cJSON_AddNumberToObject(marksObj, "itfa_credithours", s[i].marks_info.itfa_credithours);
-        cJSON_AddNumberToObject(marksObj, "cp_credithours", s[i].marks_info.cp_credithours);
-        cJSON_AddNumberToObject(marksObj, "ap_credithours", s[i].marks_info.ap_credithours);
-        cJSON_AddNumberToObject(marksObj, "pst_credithours", s[i].marks_info.pst_credithours);
-        cJSON_AddNumberToObject(marksObj, "cag_credithours", s[i].marks_info.cag_credithours);
-        cJSON_AddNumberToObject(marksObj, "fe_credithours", s[i].marks_info.fe_credithours);
+            cJSON_AddNumberToObject(marksObj, "itfa_credithours", s[i].marks_info.itfa_credithours);
+            cJSON_AddNumberToObject(marksObj, "cp_credithours", s[i].marks_info.cp_credithours);
+            cJSON_AddNumberToObject(marksObj, "ap_credithours", s[i].marks_info.ap_credithours);
+            cJSON_AddNumberToObject(marksObj, "pst_credithours", s[i].marks_info.pst_credithours);
+            cJSON_AddNumberToObject(marksObj, "cag_credithours", s[i].marks_info.cag_credithours);
+            cJSON_AddNumberToObject(marksObj, "fe_credithours", s[i].marks_info.fe_credithours);
 
-        cJSON_AddNumberToObject(marksObj, "itfa_gradescore", s[i].marks_info.itfa_gradescore);
-        cJSON_AddNumberToObject(marksObj, "cp_gradescore", s[i].marks_info.cp_gradescore);
-        cJSON_AddNumberToObject(marksObj, "ap_gradescore", s[i].marks_info.ap_gradescore);
-        cJSON_AddNumberToObject(marksObj, "pst_gradescore", s[i].marks_info.pst_gradescore);
-        cJSON_AddNumberToObject(marksObj, "cag_gradescore", s[i].marks_info.cag_gradescore);
-        cJSON_AddNumberToObject(marksObj, "fe_gradescore", s[i].marks_info.fe_gradescore);
+            cJSON_AddNumberToObject(marksObj, "itfa_gradescore", s[i].marks_info.itfa_gradescore);
+            cJSON_AddNumberToObject(marksObj, "cp_gradescore", s[i].marks_info.cp_gradescore);
+            cJSON_AddNumberToObject(marksObj, "ap_gradescore", s[i].marks_info.ap_gradescore);
+            cJSON_AddNumberToObject(marksObj, "pst_gradescore", s[i].marks_info.pst_gradescore);
+            cJSON_AddNumberToObject(marksObj, "cag_gradescore", s[i].marks_info.cag_gradescore);
+            cJSON_AddNumberToObject(marksObj, "fe_gradescore", s[i].marks_info.fe_gradescore);
 
-        // Add marks object inside student object
-        cJSON_AddItemToObject(studentObj, "marks_info", marksObj);
+            // Add marks object inside student object
+            cJSON_AddItemToObject(studentObj, "marks_info", marksObj);
+        }
+        else
+        {
+            cJSON_AddNumberToObject(marksObj, "itfa", 0);
+            cJSON_AddNumberToObject(marksObj, "cp", 0);
+            cJSON_AddNumberToObject(marksObj, "ap", 0);
+            cJSON_AddNumberToObject(marksObj, "pst", 0);
+            cJSON_AddNumberToObject(marksObj, "cag", 0);
+            cJSON_AddNumberToObject(marksObj, "fe", 0);
+
+            cJSON_AddNumberToObject(marksObj, "itfa_credithours", 0);
+            cJSON_AddNumberToObject(marksObj, "cp_credithours", 0);
+            cJSON_AddNumberToObject(marksObj, "ap_credithours", 0);
+            cJSON_AddNumberToObject(marksObj, "pst_credithours", 0);
+            cJSON_AddNumberToObject(marksObj, "cag_credithours", 0);
+            cJSON_AddNumberToObject(marksObj, "fe_credithours", 0);
+
+            cJSON_AddNumberToObject(marksObj, "itfa_gradescore", 0);
+            cJSON_AddNumberToObject(marksObj, "cp_gradescore", 0);
+            cJSON_AddNumberToObject(marksObj, "ap_gradescore", 0);
+            cJSON_AddNumberToObject(marksObj, "pst_gradescore", 0);
+            cJSON_AddNumberToObject(marksObj, "cag_gradescore", 0);
+            cJSON_AddNumberToObject(marksObj, "fe_gradescore", 0);
+
+            // Add marks object inside student object
+            cJSON_AddItemToObject(studentObj, "marks_info", marksObj);
+        }
 
         // Add student object to array
         cJSON_AddItemToArray(jsonArray, studentObj);
@@ -101,14 +130,14 @@ void addStudent()
 
     for (int i = 0; i < n; i++)
     {
-        students = realloc(students, (count + 1) * sizeof(struct Student));
-        if (students == NULL)
+        stdnts = realloc(stdnts, (cnt + 1) * sizeof(struct Student));
+        if (stdnts == NULL)
         {
             printf("Memory allocation failed!\n");
             exit(1);
         }
 
-        struct Student *s = students + count;
+        struct Student *s = stdnts + cnt;
 
         printf("\n--- Adding Student %d ---\n", i + 1);
 
@@ -128,15 +157,15 @@ void addStudent()
         scanf("%f", &(*s).cgpa);
         getchar();
 
-        count++;
+        cnt++;
         printf("Student added successfully!\n");
-        saveDataArray(students, count, 1);
     }
+    saveDataArray(stdnts, cnt, 0,0);
 }
 
 void displayStudents()
 {
-    if (count == 0)
+    if (cnt == 0)
     {
         printf("\nNo records found!\n");
         return;
@@ -145,9 +174,9 @@ void displayStudents()
     printf("\n%-10s %-20s %-15s %-5s\n", "Roll No", "Name", "Semester", "CGPA");
     printf("-------------------------------------------------------------\n");
 
-    for (int i = 0; i < cnt ;i++)
+    for (int i = 0; i < cnt; i++)
     {
-        struct Student *s = students + i;
+        struct Student *s = stdnts + i;
         printf("%-10s %-20s %-15s %.2f\n",
                (*s).roll_no, (*s).name, (*s).semester, (*s).cgpa);
     }
@@ -163,7 +192,8 @@ void searchStudent(struct Student *students, int count)
     {
         struct Student *s = students + i;
         if (strcmp((*s).roll_no, roll) == 0)
-        {   flag = 0;
+        {
+            flag = 0;
             printf("\nStudent Found:\n");
             printf("---------------------------------------------------------------------------------------------\n");
             printf("| %-10s | %-20s | %-10s | %-6s |\n",
@@ -176,8 +206,8 @@ void searchStudent(struct Student *students, int count)
             printf("---------------------------------------------------------------------------------------------\n");
         }
     }
-    if(flag)
-    printf("Student not found!\n");
+    if (flag)
+        printf("Student not found!\n");
 }
 
 void editStudent()
@@ -189,7 +219,7 @@ void editStudent()
 
     for (int i = 0; i < cnt; i++)
     {
-        struct Student *s = students + i;
+        struct Student *s = stdnts + i;
         if (strcmp((*s).roll_no, roll) == 0)
         {
             printf("\nEditing record for %s\n", (*s).name);
@@ -222,16 +252,16 @@ void deleteStudent()
 
     for (int i = 0; i < cnt; i++)
     {
-        struct Student *s = students + i;
+        struct Student *s = stdnts + i;
         if (strcmp((*s).roll_no, roll) == 0)
         {
             found = 1;
-            for (int j = i; j < count - 1; j++)
+            for (int j = i; j < cnt - 1; j++)
             {
-                *(students + j) = *(students + j + 1);
+                *(stdnts + j) = *(stdnts + j + 1);
             }
             cnt--;
-            students = realloc(students, count * sizeof(struct Student));
+            stdnts = realloc(stdnts, cnt * sizeof(struct Student));
             printf("Record deleted successfully!\n");
             break;
         }
@@ -267,7 +297,7 @@ int loadData(struct Student *students, int maxCount)
         cJSON_Delete(jsonArray);
         return 0;
     }
-    int cnt = cJSON_GetArraySize(jsonArray);
+    cnt = cJSON_GetArraySize(jsonArray);
     if (cnt > maxCount)
         cnt = maxCount; // prevent overflow
 
@@ -376,10 +406,10 @@ int loadData(struct Student *students, int maxCount)
     return cnt;
 }
 
-void menu(struct Student *s,int totalstdnts)
+void menu(struct Student *s, int totalstdnts)
 {
-    cnt =    totalstdnts;
-    students = s;
+    cnt = totalstdnts;
+    stdnts = s;
     int choice;
 
     do
@@ -404,22 +434,23 @@ void menu(struct Student *s,int totalstdnts)
             displayStudents();
             break;
         case 3:
-            searchStudent(students, count);
+            searchStudent(stdnts, cnt);
             break;
         case 4:
             editStudent();
+            saveDataArray(stdnts, cnt, 1, 1);
             break;
         case 5:
             deleteStudent();
-            saveDataArray(students,cnt,1);
+            saveDataArray(stdnts, cnt, 0,0);
             break;
         case 6:
-            saveDataArray(students, count, 1);
+            
             break;
         default:
             printf("Invalid choice! Try again.\n");
         }
     } while (choice != 6);
 
-    free(students);
+    free(stdnts);
 }

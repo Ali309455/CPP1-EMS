@@ -6,7 +6,7 @@
 #include "../header files/sittingarrangement.h"
 #include "../header files/attendancemanagement.h"
 int count;
-struct Student *s;
+struct Student *s = NULL;
 struct portal_info credentials;
 
 void student_interface(struct Student *std, int cnt)
@@ -39,16 +39,17 @@ void student_interface(struct Student *std, int cnt)
         case 4:
             printf("Exiting from student Dashboard....\n");
             return;
-        
+
         default:
             printf("Invalid choice. Please try again.\n");
             break;
-    }
+        }
     }
 }
 
-void admin_dashboard(struct Student *std, int cnt , struct portal_info *cred){
-int choice;
+void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
+{
+    int choice;
     while (1)
     {
         printf("----------> Admin Interface <----------\n");
@@ -58,6 +59,7 @@ int choice;
         printf("4. Attendance Management\n");
         printf("5. Sitting Arrangement\n");
         printf("6. Exit\n");
+        printf("Enter Your Choice: ");
         scanf("%d", &choice);
         switch (choice)
         {
@@ -66,41 +68,73 @@ int choice;
             break;
         case 2:
         {
-            menu(s,cnt);
+            menu(s, cnt);
             break;
         }
         case 3:
-            tabulation(s, count);
-            break;
+            if (cnt == 0)
+            {
+                printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
+                return;
+            }
+            else
+            {
+                tabulation(s, cnt);
+                break;
+            }
         case 4:
-            attendance_management(s, count);
-            break;
+            if (cnt == 0)
+            {
+                printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
+                return;
+            }
+            else
+            {
+                attendance_management(s, cnt);
+                break;
+            }
         case 5:
-            sittingArrangement(count, s);
-            return;
+            if (cnt == 0)
+            {
+                printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
+                return;
+            }
+            else
+            {
+                sittingArrangement(cnt, s);
+                return;
+            }
         case 6:
             printf("Exiting from Dashboard....\n");
             return;
         default:
             printf("Invalid choice. Please try again.\n");
             break;
-    }
+        }
     }
 }
 void main(void)
 {
-    s = calloc(20, sizeof(struct Student));
-    count = loadData(s, 20);
+    s = calloc(MAXCOUNT, sizeof(struct Student));
+    count = loadData(s, MAXCOUNT);
     memset(&credentials, 0, sizeof(credentials));
     load_credentials(&credentials, 1);
     int status = portal();
     if (status == 1)
     {
-        tabulation(s,count);
+        if (count == 0)
+        {
+            printf("No prior data stored by Admin. First ask them to input Prior Data \n");
+            return;
+        }
+        else
+        {
+            tabulation(s, count);
+        }
     }
     else if (status == 2)
     {
-        admin_dashboard(s,count, &credentials);
+        admin_dashboard(s, count, &credentials);
     }
     else
     {

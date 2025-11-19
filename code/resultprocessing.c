@@ -132,7 +132,7 @@ void add_marks_data(struct Student *arr, int count)
 
 void printMenu()
 {
-    printf("\t -----------------> MARKS AND RESULT PROCESSIONG \t <-----------------\n");
+    printf("\t -----------------> MARKS AND RESULT PROCESSIONG <-----------------\n");
     printf("\t1. Add marks data (NOTE: if u want to add all student's marks data one by one )\n");
     printf("\t2. Update marks data (NOTE: if u want to add 1 student's marks data OR update existing Student's marks data )\n");
     printf("\t3. Search marks data\n");
@@ -279,7 +279,7 @@ void tabulation(struct Student *s, int totalstdnts)
             {
             case 1:
                 add_marks_data(s, totalstdnts);
-                saveDataArray(s, totalstdnts, 1);
+                saveDataArray(s, totalstdnts, 1,1);
                 printf("\t------------> Your marks data is saved successfully and the data is : \n");
                 printdata(s, totalstdnts);
                 break;
@@ -292,7 +292,7 @@ void tabulation(struct Student *s, int totalstdnts)
                 printf("Enter Roll No: ");
                 scanf("%s", roll_no);
                 edit_marks_data(s, roll_no, totalstdnts);
-                saveDataArray(s, totalstdnts, 1);
+                saveDataArray(s, totalstdnts, 1,1);
                 break;
             case 3:
                 if (totalstdnts == 0)
@@ -327,7 +327,7 @@ void tabulation(struct Student *s, int totalstdnts)
         }
         else
         {
-            saveDataArray(s, totalstdnts, 1);
+            // saveDataArray(s, totalstdnts, 1,1);
             return;
         }
     }

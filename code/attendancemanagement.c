@@ -130,7 +130,7 @@ void attendance_management(struct Student *students, int totalStdnts)
         {
             case 1:
                 takeAttendance(students, totalStudents);
-                saveDataArray(students, totalStdnts, 1);
+                saveDataArray(students, totalStdnts, 1,1);
                 break;
             case 2:
                 displayAttendance(students, totalStudents);
