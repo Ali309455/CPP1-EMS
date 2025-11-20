@@ -72,6 +72,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             break;
         }
         case 3:
+            cnt = loadData(s, MAXCOUNT);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -83,6 +84,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
                 break;
             }
         case 4:
+            cnt = loadData(s, MAXCOUNT);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -94,6 +96,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
                 break;
             }
         case 5:
+            cnt = loadData(s, MAXCOUNT);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
