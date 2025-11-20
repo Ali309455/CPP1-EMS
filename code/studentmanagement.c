@@ -1,8 +1,5 @@
 #include "../header files/studentmanagement.h"
 
-// void ems_init(void) {
-//     printf("EMS initialized.\n");
-// }
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,13 +8,14 @@
 struct Student *students ;
 int count = 0;
 
+// Function to add prior information of students
 void addStudent()
 {
     int n;
     printf("\nHow many students do you want to add? ");
     scanf("%d", &n);
     getchar();
-
+    // loop till given no. of iterations to add the data at once
     for (int i = 0; i < n; i++)
     {
         students = realloc(students, (count + 1) * sizeof(struct Student));
@@ -52,6 +50,7 @@ void addStudent()
     }
 }
 
+// Function to display the student's information
 void displayStudents()
 {
     if (count == 0)
@@ -71,12 +70,13 @@ void displayStudents()
     }
 }
 
+// Function for searching a student
 void searchStudent()
 {
     char roll[10];
     printf("\nEnter Roll Number to search: ");
     scanf("%s", roll);
-
+    // loop until the student is found
     for (int i = 0; i < count; i++)
     {
         struct Student *s = students + i;
@@ -91,13 +91,14 @@ void searchStudent()
     printf("Student not found!\n");
 }
 
+// Function to update or change the data
 void editStudent()
 {
     char roll[10];
     printf("\nEnter Roll Number to edit: ");
     scanf("%s", roll);
     getchar();
-
+    // loop untill the student is found
     for (int i = 0; i < count; i++)
     {
         struct Student *s = students + i;
@@ -124,6 +125,7 @@ void editStudent()
     printf("Student not found!\n");
 }
 
+// function to delete the student completely
 void deleteStudent()
 {
     char roll[10];
