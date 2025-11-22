@@ -5,8 +5,7 @@
 #include "../header files/cJSON.h"
 
 int CNT;
-// struct Student *students;
-
+// calculates grade points
 float grade_points(int marks)
 {
 
@@ -55,7 +54,7 @@ float grade_points(int marks)
         return 0.0;
     }
 }
-
+// dispaly all data on CLI
 void printdata(struct Student *pstr, int totalstdns)
 {
     printf("=====================================================================================================\n");
@@ -75,6 +74,7 @@ void printdata(struct Student *pstr, int totalstdns)
 
     printf("=====================================================================================================\n");
 }
+// add data of existing students
 void add_marks_data(struct Student *arr, int count)
 {
     for (int i = 0; i < count; i++)
@@ -129,7 +129,7 @@ void add_marks_data(struct Student *arr, int count)
         arr[i].marks_info.fe_gradescore = grade_points(arr[i].marks_info.fe);
     }
 }
-
+// print menu
 void printMenu()
 {
     printf("\t -----------------> MARKS AND RESULT PROCESSIONG <-----------------\n");
@@ -140,16 +140,12 @@ void printMenu()
     printf("\t5. Print data\n");
     printf("\t6. Exit\n");
 }
+// calulates cgpa of all students
 void calculate_cgpa(struct Student *pstr, int count)
 {
     int index = 0;
     for (int i = 0; i < count; i++)
     {
-        // if (strcasecmp(pstr[i].roll_no, roll_no) == 0)
-        // {
-        //     index = i;
-        //     break;
-        // }
 
         if (pstr[i].cgpa == 0.0)
         {
@@ -177,6 +173,7 @@ void calculate_cgpa(struct Student *pstr, int count)
     printf("\t ------> Every students cgpa is calculated based on the data <--------\n");
     printdata(pstr, count);
 }
+// edit marks data by roll no
 void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
 {
     int index = -1;
@@ -219,6 +216,7 @@ void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
     else
         printf("\t ------> %S Not Found <--------\n", roll_no);
 }
+// search marks data by roll no
 void search_marks_data(struct Student *pstr, char roll_no[19], int count)
 {
     for (int i = 0; i < count; i++)
@@ -243,6 +241,7 @@ void search_marks_data(struct Student *pstr, char roll_no[19], int count)
     }
     printf("\t ------> %S Not Found <--------\n", roll_no);
 }
+// delete marks data of by roll no
 void delete_marks_data(struct Student *pstr, char roll_no[19])
 {
     for (int i = 0; i < CNT; i++)
@@ -263,6 +262,7 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
     }
     printf("\t ------> %S data deleted successfully <--------\n", roll_no);
 }
+// main function of this file
 void tabulation(struct Student *s, int totalstdnts)
 {
 
@@ -291,6 +291,7 @@ void tabulation(struct Student *s, int totalstdnts)
                 }
                 printf("Enter Roll No: ");
                 scanf("%s", roll_no);
+                clearScreen();
                 edit_marks_data(s, roll_no, totalstdnts);
                 saveDataArray(s, totalstdnts, 1,1);
                 break;
@@ -302,6 +303,7 @@ void tabulation(struct Student *s, int totalstdnts)
                 }
                 printf("Enter Roll No: ");
                 scanf("%s", roll_no);
+                clearScreen();
                 search_marks_data(s, roll_no, totalstdnts);
                 break;
             case 4:
@@ -310,6 +312,7 @@ void tabulation(struct Student *s, int totalstdnts)
                     printf("NO DATA STORED\n");
                     break;
                 }
+                clearScreen();
                 calculate_cgpa(s, totalstdnts);
                 break;
             case 5:
@@ -318,6 +321,7 @@ void tabulation(struct Student *s, int totalstdnts)
                     printf("NO DATA STORED\n");
                     break;
                 }
+                clearScreen();
                 printdata(s, totalstdnts);
                 break;
 

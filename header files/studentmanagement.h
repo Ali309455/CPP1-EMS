@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define SUBJECTS 6
-#define MAXCOUNT 120
+#define MAXCOUNT 200
 
 struct marks
 {
@@ -50,6 +50,7 @@ void searchStudent(struct Student *students, int cnt);
 void editStudent();
 void deleteStudent();
 void saveDataArray(struct Student *s, int cnt, int,int);
-int loadData(struct Student *students, int maxCount);
+int loadData(struct Student **students);
 void menu(struct Student *s,int);
+void clearScreen();
 #endif

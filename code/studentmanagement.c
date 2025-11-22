@@ -1,8 +1,5 @@
 #include "../header files/studentmanagement.h"
-
-// void ems_init(void) {
-//     printf("EMS initialized.\n");
-// }
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,6 +8,11 @@
 struct Student *stdnts = NULL;
 
 int cnt = 0;
+void clearScreen()
+{
+    const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+}
 
 void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_marks)
 {
@@ -160,7 +162,7 @@ void addStudent()
         cnt++;
         printf("Student added successfully!\n");
     }
-    saveDataArray(stdnts, cnt, 0,0);
+    saveDataArray(stdnts, cnt, 0, 0);
 }
 
 void displayStudents()
@@ -271,7 +273,7 @@ void deleteStudent()
         printf("Student not found!\n");
 }
 
-int loadData(struct Student *students, int maxCount)
+int loadData(struct Student **students)
 {
     FILE *file = fopen("../Data/students.json", "r");
     if (!file)
@@ -298,19 +300,25 @@ int loadData(struct Student *students, int maxCount)
         return 0;
     }
     cnt = cJSON_GetArraySize(jsonArray);
-    if (cnt > maxCount)
-        cnt = maxCount; // prevent overflow
+
+    *students = (struct Student *)realloc(*students, (cnt * sizeof(struct Student)));
+    if (!*students)
+    {
+        printf("Memory allocation failed!\n");
+        return 0;
+    }
+    struct Student *arr = *students;
 
     for (int i = 0; i < cnt; i++)
     {
         cJSON *studentObj = cJSON_GetArrayItem(jsonArray, i);
-        strcpy(students[i].roll_no, cJSON_GetObjectItem(studentObj, "roll_no")->valuestring);
-        strcpy(students[i].name, cJSON_GetObjectItem(studentObj, "name")->valuestring);
-        strcpy(students[i].semester, cJSON_GetObjectItem(studentObj, "semester")->valuestring);
-        students[i].cgpa = (float)cJSON_GetObjectItem(studentObj, "cgpa")->valuedouble;
+        strcpy(arr[i].roll_no, cJSON_GetObjectItem(studentObj, "roll_no")->valuestring);
+        strcpy(arr[i].name, cJSON_GetObjectItem(studentObj, "name")->valuestring);
+        strcpy(arr[i].semester, cJSON_GetObjectItem(studentObj, "semester")->valuestring);
+        arr[i].cgpa = (float)cJSON_GetObjectItem(studentObj, "cgpa")->valuedouble;
 
         cJSON *marksObj = cJSON_GetObjectItem(studentObj, "marks_info");
-        struct marks *m = &students[i].marks_info;
+        struct marks *m = &arr[i].marks_info;
         if (marksObj && cJSON_IsObject(marksObj))
         {
             cJSON *temp;
@@ -390,16 +398,16 @@ int loadData(struct Student *students, int maxCount)
             {
                 cJSON *attItem = cJSON_GetArrayItem(attendanceArray, j);
                 if (cJSON_IsNumber(attItem))
-                    students[i].attendance[j] = attItem->valueint;
+                    arr[i].attendance[j] = attItem->valueint;
                 else
-                    students[i].attendance[j] = 0; // default to 0 if not numeric
+                    arr[i].attendance[j] = 0; // default to 0 if not numeric
             }
         }
         else
         {
             // If no attendance in file, default all to 0
             for (int j = 0; j < SUBJECTS; j++)
-                students[i].attendance[j] = 0;
+                arr[i].attendance[j] = 0;
         }
     }
     printf("Loaded %d students from JSON file.\n", cnt);
@@ -414,6 +422,7 @@ void menu(struct Student *s, int totalstdnts)
 
     do
     {
+        clearScreen();
         printf("\n =================================== Student Management System ==================================\n");
         printf("\t1. Add Student\n");
         printf("\t2. Display All Students\n");
@@ -442,10 +451,10 @@ void menu(struct Student *s, int totalstdnts)
             break;
         case 5:
             deleteStudent();
-            saveDataArray(stdnts, cnt, 0,0);
+            saveDataArray(stdnts, cnt, 0, 0);
             break;
         case 6:
-            
+
             break;
         default:
             printf("Invalid choice! Try again.\n");

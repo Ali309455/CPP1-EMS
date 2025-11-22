@@ -1,18 +1,18 @@
 #include "../header files/Portal.h"
+#include "../header files/studentmanagement.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../header files/cJSON.h"
 
+// loads credentials from a json file
 void load_credentials(struct portal_info *cred, int flag)
 {
-    // --- Validate input pointer ---
     if (cred == NULL)
     {
         printf("Error: NULL pointer passed to load_credentials.\n");
         return;
     }
-
     // --- Open file for reading ---
     FILE *file = fopen("../Data/credentials.json", "r");
     if (file == NULL)
@@ -20,7 +20,6 @@ void load_credentials(struct portal_info *cred, int flag)
         perror("Error opening credentials file");
         return;
     }
-
     // --- Get file size ---
     fseek(file, 0, SEEK_END);
     long length = ftell(file);
@@ -31,7 +30,6 @@ void load_credentials(struct portal_info *cred, int flag)
         return;
     }
     fseek(file, 0, SEEK_SET);
-
     // --- Read entire file into buffer ---
     char *data = (char *)malloc(length + 1);
     if (data == NULL)
@@ -40,21 +38,17 @@ void load_credentials(struct portal_info *cred, int flag)
         fclose(file);
         return;
     }
-
     size_t read_bytes = fread(data, 1, length, file);
     data[read_bytes] = '\0';
     fclose(file);
-
     // --- Parse JSON data ---
     cJSON *json = cJSON_Parse(data);
     free(data);
-
     if (json == NULL)
     {
         printf("Error: Failed to parse JSON from credentials.json\n");
         return;
     }
-
     // --- Extract teacher_password ---
     cJSON *teacher = cJSON_GetObjectItem(json, "teacher_password");
     if (teacher == NULL || !cJSON_IsString(teacher))
@@ -63,7 +57,6 @@ void load_credentials(struct portal_info *cred, int flag)
         cJSON_Delete(json);
         return;
     }
-
     // --- Extract admin_password ---
     cJSON *admin = cJSON_GetObjectItem(json, "admin_password");
     if (admin == NULL || !cJSON_IsString(admin))
@@ -72,27 +65,22 @@ void load_credentials(struct portal_info *cred, int flag)
         cJSON_Delete(json);
         return;
     }
-
-    // --- Copy data into structure safely ---
+    // --- Copy data into structure and ensure null termination ---
     strncpy(cred->teacher_password, teacher->valuestring, sizeof(cred->teacher_password) - 1);
     strncpy(cred->admin_password, admin->valuestring, sizeof(cred->admin_password) - 1);
     strncpy(cred->q1, cJSON_GetObjectItem(json, "q1")->valuestring, sizeof(cred->q1) - 1);
     strncpy(cred->q2, cJSON_GetObjectItem(json, "q2")->valuestring, sizeof(cred->q2) - 1);
 
-    // Ensure null termination
     cred->teacher_password[sizeof(cred->teacher_password) - 1] = '\0';
     cred->admin_password[sizeof(cred->admin_password) - 1] = '\0';
 if (flag == 1)
     printf("Credentials loaded successfully.\n");
-
-    // --- Clean up ---
     cJSON_Delete(json);
 }
-
+// saves password in json file
 void save_password(struct portal_info cred)
 {
     cJSON *json = cJSON_CreateObject();
-
     cJSON_AddStringToObject(json, "teacher_password", cred.teacher_password);
     cJSON_AddStringToObject(json, "admin_password", cred.admin_password);
     cJSON_AddStringToObject(json, "q1", cred.q1);
@@ -104,7 +92,6 @@ void save_password(struct portal_info cred)
         perror("Error opening credentials file");
         return;
     }
-
     char *json_string = cJSON_Print(json);
     if (json_string == NULL)
     {
@@ -113,16 +100,14 @@ void save_password(struct portal_info cred)
         fclose(file);
         return;
     }
-
     fputs(json_string, file);
     fclose(file);
-
     printf("Passweord saved successfully!\n");
-
     // Clean up
     free(json_string);
     cJSON_Delete(json);
 }
+// forget password functionality
 void forget_password(struct portal_info cred)
 {
     char ans1[25];
@@ -141,7 +126,7 @@ void forget_password(struct portal_info cred)
         printf("Wrong Answers\n");
     }
 }
-
+// change save_password functionality
 void change_password(int choice, struct portal_info *cred)
 {
     char current_password[30];
@@ -187,6 +172,7 @@ void change_password(int choice, struct portal_info *cred)
         break;
     }
 }
+// admininterface
 void Admin_interface(struct portal_info *cred)
 {
     int admin_choice;
@@ -194,15 +180,16 @@ void Admin_interface(struct portal_info *cred)
     printf("Enter 1 to change password of Teachers\n");
     printf("Enter 2 to change Password of Admin\n");
     printf("Enter 3 if you forget password\n");
-    printf("Enter 0 to exit Security Dashboard \n ");
+    printf("Enter 0 to exit Security Dashboard\n");
     printf("Enter your choice: ");
     scanf("%d", &admin_choice);
     change_password(admin_choice, cred);
 }
+// when no credentials file this function is called
 void first_time_login(struct portal_info *cred)
 {
     char password[30];
-    printf("-----> YOUR USING THE SYSTEM FIRST TIME SET ADMIN AND TEACHER PASSWORDS <---------\n");
+    printf("------------------------------> YOUR USING THE SYSTEM FIRST TIME SET ADMIN AND TEACHER PASSWORDS <-----------------\n");
 
     printf("Enter Admin Password: ");
     scanf("%s", password);
@@ -221,10 +208,12 @@ void first_time_login(struct portal_info *cred)
     strncpy(cred->q2, ans2, sizeof(cred->q2) - 1);
     save_password(*cred);
 }
+// login interface of the EMS
 int login(struct portal_info cred)
 {
     char password[30];
     int status_choice;
+    clearScreen();
     printf("------------------------------------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <----------------------\n");
     printf("\n0-> Student \n1-> Teacher\n2-> Admin \n");
     printf("Enter your status: ");
@@ -254,14 +243,17 @@ int login(struct portal_info cred)
         return 0;
     }
 }
-
+// main function of this file
 int portal(void)
 {
     struct portal_info credentials;
+    // setting all credentials to 0
     memset(&credentials, 0, sizeof(credentials));
     load_credentials(&credentials, 0);
-    if (strlen(credentials.admin_password) == 0)
-        first_time_login(&credentials);
+    // checks if credentials are empty
+    if (strlen(credentials.admin_password) == 0){
+        clearScreen();
+        first_time_login(&credentials);}
     int status = login(credentials);
     return status;
 }

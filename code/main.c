@@ -38,6 +38,7 @@ void student_interface(struct Student *std, int cnt)
             break;
         case 4:
             printf("Exiting from student Dashboard....\n");
+            free(s);
             return;
 
         default:
@@ -52,7 +53,8 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
     int choice;
     while (1)
     {
-        printf("----------> Admin Interface <----------\n");
+        clearScreen();
+        printf("---------------------> Admin Interface <--------------------\n");
         printf("1. Security \n");
         printf("2. Student Prior Information Dashboard\n");
         printf("3. Student Result Processing\n");
@@ -64,15 +66,17 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
         switch (choice)
         {
         case 1:
+            clearScreen();
             Admin_interface(cred);
             break;
         case 2:
         {
+            clearScreen();
             menu(s, cnt);
             break;
         }
         case 3:
-            cnt = loadData(s, MAXCOUNT);
+            cnt = loadData(&s);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -80,11 +84,12 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             }
             else
             {
+                clearScreen();
                 tabulation(s, cnt);
                 break;
             }
         case 4:
-            cnt = loadData(s, MAXCOUNT);
+            cnt = loadData(&s);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -92,11 +97,12 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             }
             else
             {
+                clearScreen();
                 attendance_management(s, cnt);
                 break;
             }
         case 5:
-            cnt = loadData(s, MAXCOUNT);
+            cnt = loadData(&s);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -104,11 +110,13 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             }
             else
             {
+                clearScreen();
                 sittingArrangement(cnt, s);
                 return;
             }
         case 6:
             printf("Exiting from Dashboard....\n");
+            free(s);
             return;
         default:
             printf("Invalid choice. Please try again.\n");
@@ -118,8 +126,8 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
 }
 void main(void)
 {
-    s = calloc(MAXCOUNT, sizeof(struct Student));
-    count = loadData(s, MAXCOUNT);
+    s = calloc(2, sizeof(struct Student));
+    count = loadData(&s);
     memset(&credentials, 0, sizeof(credentials));
     load_credentials(&credentials, 1);
     int status = portal();
@@ -133,6 +141,8 @@ void main(void)
         else
         {
             tabulation(s, count);
+            free(s);
+            
         }
     }
     else if (status == 2)
