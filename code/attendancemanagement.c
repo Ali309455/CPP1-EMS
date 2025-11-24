@@ -4,11 +4,10 @@
 #include "../header files/studentmanagement.h"
 
 
-// Subjects ke naam
+// Name of Subjects
 char subjects[SUBJECTS][20] = {"ITFA", "CP", "PST", "English", "AP", "CAG"};
 
-
-// Function 1: Attendance lena
+// Take Attendance 
 void takeAttendance(struct Student *students, int totalStudents)
 {
     for (int i = 0; i < SUBJECTS; i++)
@@ -34,7 +33,7 @@ void takeAttendance(struct Student *students, int totalStudents)
     return ;
 }
 
-// Function 2: Attendance show karna
+// Display Attendance
 void displayAttendance(struct Student *students, int totalStudents)
 {
     if (totalStudents == 0)
@@ -67,12 +66,12 @@ printf("========================================================================
 
 }
 
-// Function 3: Kisi ek subject ki total attendance check karna
+// Display Attendance of Specific Subject
 void checkTotalAttendance(struct Student *students, int totalStudents)
 {
     if (totalStudents == 0)
     {
-        printf("\n⚠️ Pehle attendance lo!\n");
+        printf("\nTake attendance first!!\n");
         return;
     }
 
@@ -92,7 +91,7 @@ void checkTotalAttendance(struct Student *students, int totalStudents)
 
     if (subjectIndex == -1)
     {
-        printf(" Galat subject name hai!\n");
+        printf(" Invalid Subject:)\n");
         return;
     }
 
@@ -110,6 +109,7 @@ void checkTotalAttendance(struct Student *students, int totalStudents)
     printf("Attendance Percentage: %.2f%%\n", (presentCount * 100.0) / totalStudents);
 }
 
+// Print Menu
 void attendance_management(struct Student *students, int totalStdnts)
 {
 

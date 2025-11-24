@@ -77,6 +77,7 @@ if (flag == 1)
     printf("Credentials loaded successfully.\n");
     cJSON_Delete(json);
 }
+
 // saves password in json file
 void save_password(struct portal_info cred)
 {
@@ -107,6 +108,7 @@ void save_password(struct portal_info cred)
     free(json_string);
     cJSON_Delete(json);
 }
+
 // forget password functionality
 void forget_password(struct portal_info cred)
 {
@@ -126,6 +128,7 @@ void forget_password(struct portal_info cred)
         printf("Wrong Answers\n");
     }
 }
+
 // change save_password functionality
 void change_password(int choice, struct portal_info *cred)
 {
@@ -172,7 +175,8 @@ void change_password(int choice, struct portal_info *cred)
         break;
     }
 }
-// admininterface
+
+// Admin Interface
 void Admin_interface(struct portal_info *cred)
 {
     int admin_choice;
@@ -185,6 +189,7 @@ void Admin_interface(struct portal_info *cred)
     scanf("%d", &admin_choice);
     change_password(admin_choice, cred);
 }
+
 // when no credentials file this function is called
 void first_time_login(struct portal_info *cred)
 {
@@ -208,6 +213,7 @@ void first_time_login(struct portal_info *cred)
     strncpy(cred->q2, ans2, sizeof(cred->q2) - 1);
     save_password(*cred);
 }
+
 // login interface of the EMS
 int login(struct portal_info cred)
 {
@@ -243,6 +249,7 @@ int login(struct portal_info cred)
         return 0;
     }
 }
+
 // main function of this file
 int portal(void)
 {
