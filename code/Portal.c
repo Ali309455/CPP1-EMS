@@ -213,7 +213,6 @@ int login(struct portal_info cred)
 {
     char password[30];
     int status_choice;
-    clearScreen();
     printf("------------------------------------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <----------------------\n");
     printf("\n0-> Student \n1-> Teacher\n2-> Admin \n");
     printf("Enter your status: ");

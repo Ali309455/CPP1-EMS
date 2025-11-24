@@ -147,8 +147,9 @@ void calculate_cgpa(struct Student *pstr, int count)
     for (int i = 0; i < count; i++)
     {
 
-        if (pstr[i].cgpa == 0.0)
+        if (pstr[i].cgpa == 0.0 )
         {
+            if(pstr[i].marks_info.itfa_gradescore == 0.0 || pstr[i].marks_info.cp_gradescore == 0.0 || pstr[i].marks_info.ap_gradescore == 0.0 || pstr[i].marks_info.pst_gradescore == 0.0 || pstr[i].marks_info.cag_gradescore == 0.0 || pstr[i].marks_info.fe_gradescore == 0.0){
             pstr[i].cgpa = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
                             (pstr[i].marks_info.cp_gradescore * pstr[i].marks_info.cp_credithours) +
                             (pstr[i].marks_info.ap_gradescore * pstr[i].marks_info.ap_credithours) +
@@ -157,9 +158,11 @@ void calculate_cgpa(struct Student *pstr, int count)
                             (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
                            (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
         }
+        }
 
         else
         {
+            if(pstr[i].marks_info.itfa_gradescore == 0.0 || pstr[i].marks_info.cp_gradescore == 0.0 || pstr[i].marks_info.ap_gradescore == 0.0 || pstr[i].marks_info.pst_gradescore == 0.0 || pstr[i].marks_info.cag_gradescore == 0.0 || pstr[i].marks_info.fe_gradescore == 0.0){
             float temp = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
                           (pstr[i].marks_info.cp_gradescore * pstr[i].marks_info.cp_credithours) +
                           (pstr[i].marks_info.ap_gradescore * pstr[i].marks_info.ap_credithours) +
@@ -167,7 +170,7 @@ void calculate_cgpa(struct Student *pstr, int count)
                           (pstr[i].marks_info.cag_gradescore * pstr[i].marks_info.cag_credithours) +
                           (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
                          (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
-            pstr[i].cgpa = (pstr[i].cgpa + temp) / 2;
+            pstr[i].cgpa = (pstr[i].cgpa + temp) / 2;}
         }
     }
     printf("\t ------> Every students cgpa is calculated based on the data <--------\n");

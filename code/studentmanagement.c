@@ -11,7 +11,7 @@ int cnt = 0;
 void clearScreen()
 {
     const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
-    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 11);
 }
 
 void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_marks)
@@ -123,7 +123,7 @@ void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_m
     free(json_str);
     cJSON_Delete(jsonArray);
 }
-void addStudent()
+void addStudent(struct Student *students, int count)
 {
     int n;
     printf("\nHow many students do you want to add? ");
@@ -132,7 +132,7 @@ void addStudent()
 
     for (int i = 0; i < n; i++)
     {
-        stdnts = realloc(stdnts, (cnt + 1) * sizeof(struct Student));
+        students = realloc(stdnts, (count + 1) * sizeof(struct Student));
         if (stdnts == NULL)
         {
             printf("Memory allocation failed!\n");
@@ -212,16 +212,16 @@ void searchStudent(struct Student *students, int count)
         printf("Student not found!\n");
 }
 
-void editStudent()
+void editStudent(struct Student *students, int count)
 {
     char roll[10];
     printf("\nEnter Roll Number to edit: ");
     scanf("%s", roll);
     getchar();
 
-    for (int i = 0; i < cnt; i++)
+    for (int i = 0; i < count; i++)
     {
-        struct Student *s = stdnts + i;
+        struct Student *s = students + i;
         if (strcmp((*s).roll_no, roll) == 0)
         {
             printf("\nEditing record for %s\n", (*s).name);
@@ -245,16 +245,16 @@ void editStudent()
     printf("Student not found!\n");
 }
 
-void deleteStudent()
+void deleteStudent(struct Student *students, int count)
 {
     char roll[10];
     int found = 0;
     printf("\nEnter Roll Number to delete: ");
     scanf("%s", roll);
 
-    for (int i = 0; i < cnt; i++)
+    for (int i = 0; i < count; i++)
     {
-        struct Student *s = stdnts + i;
+        struct Student *s = students + i;
         if (strcmp((*s).roll_no, roll) == 0)
         {
             found = 1;
@@ -300,7 +300,7 @@ int loadData(struct Student **students)
         return 0;
     }
     cnt = cJSON_GetArraySize(jsonArray);
-
+    *students = (struct Student *)calloc(cnt , sizeof(struct Student));
     *students = (struct Student *)realloc(*students, (cnt * sizeof(struct Student)));
     if (!*students)
     {
@@ -422,7 +422,6 @@ void menu(struct Student *s, int totalstdnts)
 
     do
     {
-        clearScreen();
         printf("\n =================================== Student Management System ==================================\n");
         printf("\t1. Add Student\n");
         printf("\t2. Display All Students\n");
@@ -433,11 +432,12 @@ void menu(struct Student *s, int totalstdnts)
         printf("Enter your choice: ");
         scanf("%d", &choice);
         getchar();
+        clearScreen();
 
         switch (choice)
         {
         case 1:
-            addStudent();
+            addStudent(stdnts, cnt);
             break;
         case 2:
             displayStudents();
@@ -446,11 +446,11 @@ void menu(struct Student *s, int totalstdnts)
             searchStudent(stdnts, cnt);
             break;
         case 4:
-            editStudent();
+            editStudent(stdnts, cnt);
             saveDataArray(stdnts, cnt, 1, 1);
             break;
         case 5:
-            deleteStudent();
+            deleteStudent(stdnts, cnt);
             saveDataArray(stdnts, cnt, 0, 0);
             break;
         case 6:

@@ -44,11 +44,11 @@ struct Student
 extern struct Student *students;
 // extern int count;
 
-void addStudent();
+void addStudent(struct Student *stdnts, int);
 void displayStudents();
 void searchStudent(struct Student *students, int cnt);
-void editStudent();
-void deleteStudent();
+void editStudent(struct Student *stdnts, int);
+void deleteStudent(struct Student *stdnts, int);
 void saveDataArray(struct Student *s, int cnt, int,int);
 int loadData(struct Student **students);
 void menu(struct Student *s,int);

@@ -14,6 +14,7 @@ void student_interface(struct Student *std, int cnt)
     int choice;
     while (1)
     {
+        clearScreen();
         printf("1. View Your Info\n");
         printf("2. View Your Marks\n");
         printf("3. View Your Attendance\n");
@@ -76,7 +77,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             break;
         }
         case 3:
-            cnt = loadData(&s);
+            cnt = loadData(&std);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -85,11 +86,11 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             else
             {
                 clearScreen();
-                tabulation(s, cnt);
+                tabulation(std, cnt);
                 break;
             }
         case 4:
-            cnt = loadData(&s);
+            cnt = loadData(&std);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -98,11 +99,11 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             else
             {
                 clearScreen();
-                attendance_management(s, cnt);
+                attendance_management(std, cnt);
                 break;
             }
         case 5:
-            cnt = loadData(&s);
+            cnt = loadData(&std);
             if (cnt == 0)
             {
                 printf("No prior data stored. First add Prior Data using Option 2 then add students (option 1) \n");
@@ -111,7 +112,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             else
             {
                 clearScreen();
-                sittingArrangement(cnt, s);
+                sittingArrangement(cnt, std);
                 return;
             }
         case 6:
@@ -126,7 +127,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
 }
 void main(void)
 {
-    s = calloc(2, sizeof(struct Student));
+    clearScreen();
     count = loadData(&s);
     memset(&credentials, 0, sizeof(credentials));
     load_credentials(&credentials, 1);

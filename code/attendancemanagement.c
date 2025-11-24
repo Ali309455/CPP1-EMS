@@ -42,7 +42,7 @@ void displayAttendance(struct Student *students, int totalStudents)
         printf("\nNo attendance record found! Please take attendance first.\n");
         return;
     }
-
+    clearScreen();
     printf("\n============================================ Attendance Record ================================================\n");
 printf("| %-10s | %-20s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s |\n",
        "Roll No", "Name", "ITFA", "CP", "PST", "English", "AP", "CAG", "Total");
@@ -129,6 +129,7 @@ void attendance_management(struct Student *students, int totalStdnts)
         switch (choice)
         {
             case 1:
+                clearScreen();
                 takeAttendance(students, totalStudents);
                 saveDataArray(students, totalStdnts, 1,1);
                 break;
@@ -136,6 +137,7 @@ void attendance_management(struct Student *students, int totalStdnts)
                 displayAttendance(students, totalStudents);
                 break;
             case 3:
+                clearScreen();
                 checkTotalAttendance(students, totalStudents);
                 break;
             case 4:
