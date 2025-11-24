@@ -5,6 +5,7 @@
 #include "../header files/cJSON.h"
 
 int CNT;
+
 // calculates grade points
 float grade_points(int marks)
 {
@@ -54,6 +55,7 @@ float grade_points(int marks)
         return 0.0;
     }
 }
+
 // dispaly all data on CLI
 void printdata(struct Student *pstr, int totalstdns)
 {
@@ -74,6 +76,7 @@ void printdata(struct Student *pstr, int totalstdns)
 
     printf("=====================================================================================================\n");
 }
+
 // add data of existing students
 void add_marks_data(struct Student *arr, int count)
 {
@@ -129,6 +132,7 @@ void add_marks_data(struct Student *arr, int count)
         arr[i].marks_info.fe_gradescore = grade_points(arr[i].marks_info.fe);
     }
 }
+
 // print menu
 void printMenu()
 {
@@ -140,6 +144,7 @@ void printMenu()
     printf("\t5. Print data\n");
     printf("\t6. Exit\n");
 }
+
 // calulates cgpa of all students
 void calculate_cgpa(struct Student *pstr, int count)
 {
@@ -176,6 +181,7 @@ void calculate_cgpa(struct Student *pstr, int count)
     printf("\t ------> Every students cgpa is calculated based on the data <--------\n");
     printdata(pstr, count);
 }
+
 // edit marks data by roll no
 void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
 {
@@ -219,6 +225,7 @@ void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
     else
         printf("\t ------> %S Not Found <--------\n", roll_no);
 }
+
 // search marks data by roll no
 void search_marks_data(struct Student *pstr, char roll_no[19], int count)
 {
@@ -244,6 +251,7 @@ void search_marks_data(struct Student *pstr, char roll_no[19], int count)
     }
     printf("\t ------> %S Not Found <--------\n", roll_no);
 }
+
 // delete marks data of by roll no
 void delete_marks_data(struct Student *pstr, char roll_no[19])
 {
@@ -265,6 +273,7 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
     }
     printf("\t ------> %S data deleted successfully <--------\n", roll_no);
 }
+
 // main function of this file
 void tabulation(struct Student *s, int totalstdnts)
 {

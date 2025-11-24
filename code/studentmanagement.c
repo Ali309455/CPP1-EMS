@@ -8,12 +8,15 @@
 struct Student *stdnts = NULL;
 
 int cnt = 0;
+
+// To Clear the Screen
 void clearScreen()
 {
     const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
     write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 11);
 }
 
+// Saving Data to JSON File
 void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_marks)
 {
 
@@ -123,6 +126,8 @@ void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_m
     free(json_str);
     cJSON_Delete(jsonArray);
 }
+
+// Add Prior Information of Students
 void addStudent(struct Student *students, int count)
 {
     int n;
@@ -165,6 +170,7 @@ void addStudent(struct Student *students, int count)
     saveDataArray(stdnts, cnt, 0, 0);
 }
 
+// Showing Students Data
 void displayStudents()
 {
     if (cnt == 0)
@@ -184,6 +190,7 @@ void displayStudents()
     }
 }
 
+// Search Specific Student By Roll Number
 void searchStudent(struct Student *students, int count)
 {
     char roll[10];
@@ -212,6 +219,7 @@ void searchStudent(struct Student *students, int count)
         printf("Student not found!\n");
 }
 
+// Edit Student Information By Roll Number
 void editStudent(struct Student *students, int count)
 {
     char roll[10];
@@ -245,6 +253,7 @@ void editStudent(struct Student *students, int count)
     printf("Student not found!\n");
 }
 
+// Delete Student Information By Roll Number
 void deleteStudent(struct Student *students, int count)
 {
     char roll[10];
@@ -273,6 +282,7 @@ void deleteStudent(struct Student *students, int count)
         printf("Student not found!\n");
 }
 
+// Loads Data from JSON File and Returns Student Count
 int loadData(struct Student **students)
 {
     FILE *file = fopen("../Data/students.json", "r");
@@ -414,6 +424,7 @@ int loadData(struct Student **students)
     return cnt;
 }
 
+// Print Menu
 void menu(struct Student *s, int totalstdnts)
 {
     cnt = totalstdnts;

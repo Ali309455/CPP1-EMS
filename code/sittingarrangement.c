@@ -1,8 +1,7 @@
 #include "../header files/sittingarrangement.h"
 #include "../header files/studentmanagement.h"
-// void sa_init(void) {
-//     printf("sa initialized.\n");
-// }
+
+// Alloting Rooms to All Students according to Roll Numbers
 void sittingArrangement(int count, struct Student *students)
 {
     int rooms, capacity;
