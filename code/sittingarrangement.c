@@ -4,6 +4,7 @@
 // Alloting Rooms to All Students according to Roll Numbers
 void sittingArrangement(int count, struct Student *students)
 {
+    printf("===============> SITTING ARRANGEMENT DASHBOARD <===============\n");
     int rooms, capacity;
     printf("Enter number of rooms: ");
     scanf("%d", &rooms);
@@ -19,10 +20,10 @@ void sittingArrangement(int count, struct Student *students)
         return;
     }
 
-    printf("\n===== Sitting Arrangement =====\n");
+    printf("\n-----> Arrangement of Seats <-----\n");
 
     int studentIndex = 0;
-
+    int col = 6;
     for (int r = 1; r <= rooms; r++)
     {
         printf("\nRoom %d:\n", r);
@@ -38,7 +39,16 @@ void sittingArrangement(int count, struct Student *students)
             {
                 printf("Empty\t");
             }
+            if (s % col == 0)
+            {
+                printf("\n");
+            }
+            
         }
-        printf("\n");
+        if (capacity % col != 0)
+        {
+            printf("\n");
+        }
+        printf("----------------------------------------------------------------------------------------------------------------------\n");
     }
 }

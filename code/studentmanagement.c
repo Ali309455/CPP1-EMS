@@ -130,6 +130,7 @@ void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_m
 // Add Prior Information of Students
 void addStudent(struct Student *students, int count)
 {
+    printf("-----> Add Student <-----\n");
     int n;
     printf("\nHow many students do you want to add? ");
     scanf("%d", &n);
@@ -173,6 +174,7 @@ void addStudent(struct Student *students, int count)
 // Showing Students Data
 void displayStudents()
 {
+    printf("-----> Students' Data <-----\n");
     if (cnt == 0)
     {
         printf("\nNo records found!\n");
@@ -193,6 +195,7 @@ void displayStudents()
 // Search Specific Student By Roll Number
 void searchStudent(struct Student *students, int count)
 {
+    printf("-----> Search Student <-----\n");
     char roll[10];
     printf("\nEnter Roll Number to search: ");
     scanf("%s", roll);
@@ -222,6 +225,7 @@ void searchStudent(struct Student *students, int count)
 // Edit Student Information By Roll Number
 void editStudent(struct Student *students, int count)
 {
+    printf("-----> Edit Student <-----\n");
     char roll[10];
     printf("\nEnter Roll Number to edit: ");
     scanf("%s", roll);
@@ -256,6 +260,7 @@ void editStudent(struct Student *students, int count)
 // Delete Student Information By Roll Number
 void deleteStudent(struct Student *students, int count)
 {
+    printf("------> Delete Student <-----\n");
     char roll[10];
     int found = 0;
     printf("\nEnter Roll Number to delete: ");
@@ -433,13 +438,13 @@ void menu(struct Student *s, int totalstdnts)
 
     do
     {
-        printf("\n =================================== Student Management System ==================================\n");
+        printf("\n===============> STUDENT MANAGEMENT DASHBOARD <===============\n");
         printf("\t1. Add Student\n");
         printf("\t2. Display All Students\n");
         printf("\t3. Search Student\n");
         printf("\t4. Edit Student\n");
         printf("\t5. Delete Student\n");
-        printf("\t6. Save & Exit\n");
+        printf("\t6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         getchar();
@@ -465,7 +470,7 @@ void menu(struct Student *s, int totalstdnts)
             saveDataArray(stdnts, cnt, 0, 0);
             break;
         case 6:
-
+            printf("Exiting Student Management Dashboard..!!");
             break;
         default:
             printf("Invalid choice! Try again.\n");
