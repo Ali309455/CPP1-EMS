@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #define SUBJECTS 6
-#define MAXCOUNT 200
 
 struct marks
 {

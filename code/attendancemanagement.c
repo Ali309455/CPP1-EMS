@@ -5,7 +5,7 @@
 
 
 // Name of Subjects
-char subjects[SUBJECTS][20] = {"ITFA", "CP", "PST", "English", "AP", "CAG"};
+char subjects[SUBJECTS][20] = {"ITFA", "CP", "PST", "FE", "AP", "CAG"};
 
 // Take Attendance 
 void takeAttendance(struct Student *students, int totalStudents)

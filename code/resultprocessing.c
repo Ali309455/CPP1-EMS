@@ -151,36 +151,47 @@ void calculate_cgpa(struct Student *pstr, int count)
     int index = 0;
     for (int i = 0; i < count; i++)
     {
-
-        if (pstr[i].cgpa == 0.0 )
+        if (pstr[i].cgpa == 0.0)
         {
-            if(pstr[i].marks_info.itfa_gradescore == 0.0 || pstr[i].marks_info.cp_gradescore == 0.0 || pstr[i].marks_info.ap_gradescore == 0.0 || pstr[i].marks_info.pst_gradescore == 0.0 || pstr[i].marks_info.cag_gradescore == 0.0 || pstr[i].marks_info.fe_gradescore == 0.0){
-            pstr[i].cgpa = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
-                            (pstr[i].marks_info.cp_gradescore * pstr[i].marks_info.cp_credithours) +
-                            (pstr[i].marks_info.ap_gradescore * pstr[i].marks_info.ap_credithours) +
-                            (pstr[i].marks_info.pst_gradescore * pstr[i].marks_info.pst_credithours) +
-                            (pstr[i].marks_info.cag_gradescore * pstr[i].marks_info.cag_credithours) +
-                            (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
-                           (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
+            if (pstr[i].marks_info.itfa_credithours == 0.0 || pstr[i].marks_info.cp_credithours == 0.0 || pstr[i].marks_info.ap_credithours == 0.0 || pstr[i].marks_info.pst_credithours == 0.0 || pstr[i].marks_info.cag_credithours == 0.0 || pstr[i].marks_info.fe_credithours == 0.0)
+            {
+                printf(" credit Hours are not stored, go Option 1 to add marks data\n");
+                return;
+            }
+            else
+            {
+                pstr[i].cgpa = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
+                                (pstr[i].marks_info.cp_gradescore * pstr[i].marks_info.cp_credithours) +
+                                (pstr[i].marks_info.ap_gradescore * pstr[i].marks_info.ap_credithours) +
+                                (pstr[i].marks_info.pst_gradescore * pstr[i].marks_info.pst_credithours) +
+                                (pstr[i].marks_info.cag_gradescore * pstr[i].marks_info.cag_credithours) +
+                                (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
+                               (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
+            }
         }
-        }
-
         else
         {
-            if(pstr[i].marks_info.itfa_gradescore == 0.0 || pstr[i].marks_info.cp_gradescore == 0.0 || pstr[i].marks_info.ap_gradescore == 0.0 || pstr[i].marks_info.pst_gradescore == 0.0 || pstr[i].marks_info.cag_gradescore == 0.0 || pstr[i].marks_info.fe_gradescore == 0.0){
-            float temp = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
-                          (pstr[i].marks_info.cp_gradescore * pstr[i].marks_info.cp_credithours) +
-                          (pstr[i].marks_info.ap_gradescore * pstr[i].marks_info.ap_credithours) +
-                          (pstr[i].marks_info.pst_gradescore * pstr[i].marks_info.pst_credithours) +
-                          (pstr[i].marks_info.cag_gradescore * pstr[i].marks_info.cag_credithours) +
-                          (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
-                         (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
-            pstr[i].cgpa = (pstr[i].cgpa + temp) / 2;}
+            if (pstr[i].marks_info.itfa_credithours == 0.0 || pstr[i].marks_info.cp_credithours == 0.0 || pstr[i].marks_info.ap_credithours == 0.0 || pstr[i].marks_info.pst_credithours == 0.0 || pstr[i].marks_info.cag_credithours == 0.0 || pstr[i].marks_info.fe_credithours == 0.0)
+            {
+                printf(" credit Hours are not stored, go Option 1 to add marks data\n");
+                return;
+            }
+            else
+            {
+                float temp = ((pstr[i].marks_info.itfa_gradescore * pstr[i].marks_info.itfa_credithours) +
+                              (pstr[i].marks_info.cp_gradescore * pstr[i].marks_info.cp_credithours) +
+                              (pstr[i].marks_info.ap_gradescore * pstr[i].marks_info.ap_credithours) +
+                              (pstr[i].marks_info.pst_gradescore * pstr[i].marks_info.pst_credithours) +
+                              (pstr[i].marks_info.cag_gradescore * pstr[i].marks_info.cag_credithours) +
+                              (pstr[i].marks_info.fe_gradescore * pstr[i].marks_info.fe_credithours)) /
+                             (pstr[i].marks_info.itfa_credithours + pstr[i].marks_info.cp_credithours + pstr[i].marks_info.ap_credithours + pstr[i].marks_info.pst_credithours + pstr[i].marks_info.cag_credithours + pstr[i].marks_info.fe_credithours);
+                pstr[i].cgpa = (pstr[i].cgpa + temp) / 2;
+            }
+            }
         }
+        printf("\t ------> Every students cgpa is calculated based on the data <--------\n");
+        printdata(pstr, count);
     }
-    printf("\t ------> Every students cgpa is calculated based on the data <--------\n");
-    printdata(pstr, count);
-}
 
 // edit marks data by roll no
 void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
@@ -198,15 +209,15 @@ void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
     {
         printf(" %s previous marks in itfa are: %d, Enter marks in itfa: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
         scanf("%d", &pstr[index].marks_info.itfa);
-        printf(" %s previous marks in cp are: %d, Enter marks in cp: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
+        printf(" %s previous marks in cp are: %d, Enter marks in cp: ", pstr[index].roll_no, pstr[index].marks_info.cp);
         scanf("%d", &pstr[index].marks_info.cp);
-        printf(" %s previous marks in AP are: %d, Enter marks in AP: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
+        printf(" %s previous marks in AP are: %d, Enter marks in AP: ", pstr[index].roll_no, pstr[index].marks_info.ap);
         scanf("%d", &pstr[index].marks_info.ap);
-        printf(" %s previous marks in PST are: %d, Enter marks in PST: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
+        printf(" %s previous marks in PST are: %d, Enter marks in PST: ", pstr[index].roll_no, pstr[index].marks_info.pst);
         scanf("%d", &pstr[index].marks_info.pst);
-        printf(" %s previous marks in CAG are: %d, Enter marks in CAG: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
+        printf(" %s previous marks in CAG are: %d, Enter marks in CAG: ", pstr[index].roll_no, pstr[index].marks_info.cag);
         scanf("%d", &pstr[index].marks_info.cag);
-        printf(" %s previous marks in FE are: %d, Enter marks in FE: ", pstr[index].roll_no, pstr[index].marks_info.itfa);
+        printf(" %s previous marks in FE are: %d, Enter marks in FE: ", pstr[index].roll_no, pstr[index].marks_info.fe);
         scanf("%d", &pstr[index].marks_info.fe);
         pstr[index].marks_info.itfa_credithours = pstr[0].marks_info.itfa_credithours;
         pstr[index].marks_info.cp_credithours = pstr[0].marks_info.cp_credithours;
@@ -291,7 +302,7 @@ void tabulation(struct Student *s, int totalstdnts)
             {
             case 1:
                 add_marks_data(s, totalstdnts);
-                saveDataArray(s, totalstdnts, 1,1);
+                saveDataArray(s, totalstdnts, 1, 1);
                 printf("\t------------> Your marks data is saved successfully and the data is : \n");
                 printdata(s, totalstdnts);
                 break;
@@ -305,7 +316,7 @@ void tabulation(struct Student *s, int totalstdnts)
                 scanf("%s", roll_no);
                 clearScreen();
                 edit_marks_data(s, roll_no, totalstdnts);
-                saveDataArray(s, totalstdnts, 1,1);
+                saveDataArray(s, totalstdnts, 1, 1);
                 break;
             case 3:
                 if (totalstdnts == 0)
@@ -324,7 +335,6 @@ void tabulation(struct Student *s, int totalstdnts)
                     printf("NO DATA STORED\n");
                     break;
                 }
-                clearScreen();
                 calculate_cgpa(s, totalstdnts);
                 break;
             case 5:

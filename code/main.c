@@ -152,6 +152,11 @@ void main(void)
     }
     else
     {
+        if (count == 0)
+        {
+            printf("No prior data stored by Admin. First ask them to input Prior Data \n");
+            return;
+        }
         student_interface(s, count);
     }
 }

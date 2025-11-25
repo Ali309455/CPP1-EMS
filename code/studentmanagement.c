@@ -135,10 +135,9 @@ void addStudent(struct Student *students, int count)
     printf("\nHow many students do you want to add? ");
     scanf("%d", &n);
     getchar();
-
     for (int i = 0; i < n; i++)
     {
-        students = realloc(stdnts, (count + 1) * sizeof(struct Student));
+        stdnts = realloc(stdnts, (count + 1) * sizeof(struct Student));
         if (stdnts == NULL)
         {
             printf("Memory allocation failed!\n");
@@ -463,7 +462,7 @@ void menu(struct Student *s, int totalstdnts)
             break;
         case 4:
             editStudent(stdnts, cnt);
-            saveDataArray(stdnts, cnt, 1, 1);
+            saveDataArray(stdnts, cnt, 0, 0);
             break;
         case 5:
             deleteStudent(stdnts, cnt);
