@@ -118,7 +118,7 @@ void attendance_management(struct Student *students, int totalStdnts)
 
     while (1)
     {
-        printf("\n===== Attendance Management System (Pointer Version) =====\n");
+        printf("\n===== Attendance Management System =====\n");
         printf("1. Take Attendance\n");
         printf("2. Display Attendance Table\n");
         printf("3. Check Total Attendance (Subject Wise)\n");

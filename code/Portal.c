@@ -2,6 +2,7 @@
 #include "../header files/studentmanagement.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include <string.h>
 #include "../header files/cJSON.h"
 
@@ -114,18 +115,23 @@ void forget_password(struct portal_info cred)
 {
     char ans1[25];
     char ans2[25];
-    printf("n ----> You need to answer these 2 security Questions <----\n");
+    printf(" -----> You need to answer these 2 security Questions <----\n");
     printf("Q1: What is your favorite color?\n");
     scanf("%s", &ans1);
     printf("Q2: What is your favorite animal?\n");
     scanf("%s", &ans2);
     if (strcmp(ans1, cred.q1) == 0 && strcmp(ans2, cred.q2) == 0)
     {
-        printf("Password: %s\n", cred.teacher_password);
+        printf("Admin Password: %s\n", cred.admin_password);
+        printf("Teacher Password: %s\n", cred.teacher_password);
+        printf("Press any key to continue ....\n");
+        getch();
     }
     else
     {
         printf("Wrong Answers\n");
+        printf("Press any key to continue ....\n");
+        getch();
     }
 }
 
@@ -218,13 +224,15 @@ void first_time_login(struct portal_info *cred)
 int login(struct portal_info cred)
 {
     char password[30];
-    int status_choice;
+    int status_choice, forget_choice;
     printf("------------------------------------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <----------------------\n");
-    printf("\n0-> Student \n1-> Teacher\n2-> Admin \n");
+    printf("\n0-> Student \n1-> Teacher\n2-> Admin \n \n");
     printf("Enter your status: ");
     scanf("%d", &status_choice);
     if (status_choice == 1 || status_choice == 2)
     {
+        printf("\n1-> Enter Password \n0-> forget PAssword\nEnter your Choice: ");scanf("%d",&forget_choice);
+        if(forget_choice == 1 ){
         printf("Enter password: ");
         scanf("%s", password);
         if (status_choice == 1 && strcmp(password, cred.teacher_password) == 0)
@@ -240,6 +248,12 @@ int login(struct portal_info cred)
         else
         {
             printf("Invalid password you can only access student interface\n");
+        }}
+        else if(forget_choice == 0){
+            forget_password(cred);
+        }
+        else{
+            printf("Invalid Choice...");
         }
     }
     else
