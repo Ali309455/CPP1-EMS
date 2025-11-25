@@ -43,7 +43,7 @@ struct Student
 extern struct Student *students;
 // extern int count;
 
-void addStudent(struct Student **stdnts, int);
+void addStudent(struct Student **stdnts, int *count);
 void displayStudents();
 void searchStudent(struct Student *students, int cnt);
 void editStudent(struct Student *stdnts, int);

@@ -129,7 +129,7 @@ void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_m
 
 // Add Prior Information of Students
 // struct Student *stdnts = NULL;
-void addStudent(struct Student **students, int count)
+void addStudent(struct Student **students, int *count)
 {
     printf("-----> Add Student <-----\n");
     int n;
@@ -138,7 +138,7 @@ void addStudent(struct Student **students, int count)
     getchar();
     for (int i = 0; i < n; i++)
     {
-        *students = realloc(*students, (count + 1) * sizeof(struct Student));
+        *students = realloc(*students, (*count + 1) * sizeof(struct Student));
         if (*students == NULL)
         {
             printf("Memory allocation failed!\n");
@@ -165,10 +165,10 @@ void addStudent(struct Student **students, int count)
         scanf("%f", &(*s).cgpa);
         getchar();
 
-        cnt++;
+        (*count)++;
         printf("Student added successfully!\n");
     }
-    saveDataArray(*students, cnt, 0, 0);
+    saveDataArray(*students, *count, 0, 0);
 }
 
 // Showing Students Data
@@ -453,7 +453,7 @@ void menu(struct Student *s, int totalstdnts)
         switch (choice)
         {
         case 1:
-            addStudent(&stdnts, cnt);
+            addStudent(&stdnts, &cnt);
             break;
         case 2:
             displayStudents();
