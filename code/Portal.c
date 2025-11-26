@@ -75,7 +75,7 @@ void load_credentials(struct portal_info *cred, int flag)
     cred->teacher_password[sizeof(cred->teacher_password) - 1] = '\0';
     cred->admin_password[sizeof(cred->admin_password) - 1] = '\0';
 if (flag == 1)
-    printf("Credentials loaded successfully.\n");
+    printf("Credentials loaded successfully :)\n");
     cJSON_Delete(json);
 }
 
@@ -104,7 +104,7 @@ void save_password(struct portal_info cred)
     }
     fputs(json_string, file);
     fclose(file);
-    printf("Passweord saved successfully!\n");
+    printf("Passweord saved successfully :)\n");
     // Clean up
     free(json_string);
     cJSON_Delete(json);
@@ -115,7 +115,7 @@ void forget_password(struct portal_info cred)
 {
     char ans1[25];
     char ans2[25];
-    printf(" -----> You need to answer these 2 security Questions <----\n");
+    printf(" -----> You need to answer these 2 security Questions <-----\n");
     printf("Q1: What is your favorite color?\n");
     scanf("%s", &ans1);
     printf("Q2: What is your favorite animal?\n");
@@ -129,7 +129,7 @@ void forget_password(struct portal_info cred)
     }
     else
     {
-        printf("Wrong Answers\n");
+        printf("Wrong Answers!!\n");
         printf("Press any key to continue ....\n");
         getch();
     }
@@ -157,7 +157,7 @@ void change_password(int choice, struct portal_info *cred)
         }
         else
         {
-            printf("Wrong Password\n");
+            printf("Wrong Password!!\n");
         }
         break;
     case 2:
@@ -171,13 +171,13 @@ void change_password(int choice, struct portal_info *cred)
             save_password(*cred);
         }
         else 
-            printf("Wrong Password\n");
+            printf("Wrong Password!!\n");
         break;
     case 0:
         printf("Exiting Security Dashboard ..\n");
         return;
     default:
-        printf("Invalid Choice");
+        printf("Invalid Choice :(\n");
         break;
     }
 }
@@ -186,7 +186,7 @@ void change_password(int choice, struct portal_info *cred)
 void Admin_interface(struct portal_info *cred)
 {
     int admin_choice;
-    printf("---------------------> Admin Interface <---------------------\n");
+    printf("==============> Admin Security Interface <===============\n");
     printf("Enter 1 to change password of Teachers\n");
     printf("Enter 2 to change Password of Admin\n");
     printf("Enter 3 if you forget password\n");
@@ -200,17 +200,17 @@ void Admin_interface(struct portal_info *cred)
 void first_time_login(struct portal_info *cred)
 {
     char password[30];
-    printf("------------------------------> YOUR USING THE SYSTEM FIRST TIME SET ADMIN AND TEACHER PASSWORDS <-----------------\n");
+    printf("==========> YOUR USING THE SYSTEM FIRST TIME, PLEASE SET ADMIN AND TEACHER PASSWORDS :) <==========\n");
 
-    printf("Enter Admin Password: ");
+    printf("Set up Admin Password: ");
     scanf("%s", password);
     strncpy(cred->admin_password, password, sizeof(cred->admin_password) - 1);
-    printf("Enter Teacher Password: ");
+    printf("Set up Teacher Password: ");
     scanf("%s", password);
     strncpy(cred->teacher_password, password, sizeof(cred->teacher_password) - 1);
     char ans1[25];
     char ans2[25];
-    printf("\t ----> You need to answer these 2 security Questions <----\n");
+    printf("\t -----> You need to answer these 2 security Questions <-----\n");
     printf("Q1: What is your favorite color?\n");
     scanf("%s", &ans1);
     printf("Q2: What is your favorite animal?\n");
@@ -225,13 +225,13 @@ int login(struct portal_info cred)
 {
     char password[30];
     int status_choice, forget_choice;
-    printf("------------------------------------> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <----------------------\n");
+    printf("\n====================> WELCOME TO EXAMINATION MANAGEMENT SYSTEM <====================\n");
     printf("\n0-> Student \n1-> Teacher\n2-> Admin \n \n");
     printf("Enter your status: ");
     scanf("%d", &status_choice);
     if (status_choice == 1 || status_choice == 2)
     {
-        printf("\n1-> Enter Password \n0-> forget PAssword\nEnter your Choice: ");scanf("%d",&forget_choice);
+        printf("\n1-> Enter Password \n0-> forget Password\nEnter your Choice: ");scanf("%d",&forget_choice);
         if(forget_choice == 1 ){
         printf("Enter password: ");
         scanf("%s", password);
@@ -247,18 +247,18 @@ int login(struct portal_info cred)
         }
         else
         {
-            printf("Invalid password you can only access student interface\n");
+            printf("Invalid Password!! You can only access Student Dashboard :)\n");
         }}
         else if(forget_choice == 0){
             forget_password(cred);
         }
         else{
-            printf("Invalid Choice...");
+            printf("Invalid Choice :(");
         }
     }
     else
     {
-        printf("----------> Student Interface <----------\n");
+        printf("===============> Student Dashboard <===============\n");
         return 0;
     }
 }

@@ -1,5 +1,6 @@
 #include "../header files/sittingarrangement.h"
 #include "../header files/studentmanagement.h"
+#include<conio.h>
 
 // Alloting Rooms to All Students according to Roll Numbers
 void sittingArrangement(int count, struct Student *students)
@@ -51,4 +52,6 @@ void sittingArrangement(int count, struct Student *students)
         }
         printf("----------------------------------------------------------------------------------------------------------------------\n");
     }
+    printf("Press any key to continue.....");
+    getch();
 }

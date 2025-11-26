@@ -12,7 +12,7 @@ void takeAttendance(struct Student *students, int totalStudents)
 {
     for (int i = 0; i < SUBJECTS; i++)
     {
-        printf("\n----> Taking Attendance for Subject: %s\n", subjects[i]);
+        printf("\n-----> Taking Attendance for Subject: %s <-----\n", subjects[i]);
         for (int j = 0; j < totalStudents; j++)
         {
             int status;
@@ -38,11 +38,11 @@ void displayAttendance(struct Student *students, int totalStudents)
 {
     if (totalStudents == 0)
     {
-        printf("\nNo attendance record found! Please take attendance first.\n");
+        printf("\nNo attendance record found! Please take attendance first :)\n");
         return;
     }
     clearScreen();
-    printf("\n============================================ Attendance Record ================================================\n");
+    printf("\n============================================ Attendance Record =============================================\n");
 printf("| %-10s | %-20s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s |\n",
        "Roll No", "Name", "ITFA", "CP", "PST", "English", "AP", "CAG", "Total");
 printf("============================================================================================================\n");
@@ -59,7 +59,7 @@ for (int i = 0; i < totalStudents; i++)
         printf(" %-7c |", status);
     }
 
-    printf(" %-7d |\n", totalPresent); // Optional: show total present days
+    printf(" %-7d |\n", totalPresent); 
 }
 
 printf("============================================================================================================\n");
@@ -77,7 +77,7 @@ void checkTotalAttendance(struct Student *students, int totalStudents)
 
     char subName[50];
     printf("\nEnter subject name to check total attendance: ");
-    scanf(" %[^\n]s", subName); // read full line including spaces
+    scanf(" %[^\n]s", subName); 
 
     int subjectIndex = -1;
     for (int i = 0; i < SUBJECTS; i++)
@@ -118,7 +118,7 @@ void attendance_management(struct Student *students, int totalStdnts)
 
     while (1)
     {
-        printf("\n===== Attendance Management System =====\n");
+        printf("\n===============> Attendance Management Dashboard <===============\n");
         printf("1. Take Attendance\n");
         printf("2. Display Attendance Table\n");
         printf("3. Check Total Attendance (Subject Wise)\n");
@@ -144,7 +144,7 @@ void attendance_management(struct Student *students, int totalStdnts)
                 printf("Exiting Attendance Management system...\n");
                 return ;
             default:
-                printf("Invalid choice! Try again.\n");
+                printf("Invalid choice! Try again :)\n");
         }
     }
 

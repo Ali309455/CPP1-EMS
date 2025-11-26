@@ -128,7 +128,6 @@ void saveDataArray(struct Student *s, int count, int flag_attendance, int flag_m
 }
 
 // Add Prior Information of Students
-// struct Student *stdnts = NULL;
 void addStudent(struct Student **students, int *count)
 {
     printf("-----> Add Student <-----\n");

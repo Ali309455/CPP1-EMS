@@ -5,6 +5,7 @@
 #include "../header files/resultprocessing.h"
 #include "../header files/sittingarrangement.h"
 #include "../header files/attendancemanagement.h"
+#include<conio.h>
 int count;
 struct Student *s = NULL;
 struct portal_info credentials;
@@ -15,6 +16,7 @@ void student_interface(struct Student *std, int cnt)
     while (1)
     {
         clearScreen();
+        printf("===============> Student Dashboard <===============\n");
         printf("1. View Your Info\n");
         printf("2. View Your Marks\n");
         printf("3. View Your Attendance\n");
@@ -25,6 +27,8 @@ void student_interface(struct Student *std, int cnt)
         {
         case 1:
             searchStudent(std, cnt);
+            printf("Press any key to continue.....");
+            getch();
             break;
         case 2:
         {
@@ -32,10 +36,14 @@ void student_interface(struct Student *std, int cnt)
             printf("Enter Roll Number: ");
             scanf("%s", roll_no);
             search_marks_data(std, roll_no, cnt);
+            printf("Press any key to continue.....");
+            getch();
             break;
         }
         case 3:
             displayAttendance(std, count);
+            printf("Press any key to continue.....");
+            getch();
             break;
         case 4:
             printf("Exiting from student Dashboard....\n");
@@ -113,7 +121,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
             {
                 clearScreen();
                 sittingArrangement(cnt, std);
-                return;
+                break;
             }
         case 6:
             printf("Exiting from Dashboard....\n");
@@ -125,6 +133,7 @@ void admin_dashboard(struct Student *std, int cnt, struct portal_info *cred)
         }
     }
 }
+
 void main(void)
 {
     clearScreen();
@@ -136,7 +145,7 @@ void main(void)
     {
         if (count == 0)
         {
-            printf("No prior data stored by Admin. First ask them to input Prior Data \n");
+            printf("No prior data stored by Admin, First ask them to input Prior Data :) \n");
             return;
         }
         else
@@ -154,7 +163,7 @@ void main(void)
     {
         if (count == 0)
         {
-            printf("No prior data stored by Admin. First ask them to input Prior Data \n");
+            printf("No prior data stored by Admin, First ask them to input Prior Data :) \n");
             return;
         }
         student_interface(s, count);

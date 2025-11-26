@@ -96,23 +96,23 @@ void add_marks_data(struct Student *arr, int count)
         scanf("%d", &arr[i].marks_info.fe);
         if (i == 0)
         {
-            printf("-----> Same credit hours will be added for every Student <------\n");
-            printf("Enter %s(%s)  itfa_credithours: ", arr[i].roll_no, arr[i].name);
+            printf("-----> Same credit hours will be added for every Student <-----\n");
+            printf("Enter ITFA Credit Hours: ");
             scanf("%d", &arr[i].marks_info.itfa_credithours);
 
-            printf("Enter %s(%s)  cp_credithours: ", arr[i].roll_no, arr[i].name);
+            printf("Enter CP Credit Hours: ");
             scanf("%d", &arr[i].marks_info.cp_credithours);
 
-            printf("Enter %s(%s)  ap_credithours: ", arr[i].roll_no, arr[i].name);
+            printf("Enter AP Credit Hours: ");
             scanf("%d", &arr[i].marks_info.ap_credithours);
 
-            printf("Enter %s(%s)  pst_credithours: ", arr[i].roll_no, arr[i].name);
+            printf("Enter PSt Credit Hours: ");
             scanf("%d", &arr[i].marks_info.pst_credithours);
 
-            printf("Enter %s(%s)  cag_credithours: ", arr[i].roll_no, arr[i].name);
+            printf("Enter CAG Credit Hours: ");
             scanf("%d", &arr[i].marks_info.cag_credithours);
 
-            printf("Enter %s(%s)  fe_credithours: ", arr[i].roll_no, arr[i].name);
+            printf("Enter FE Credit Hours: ");
             scanf("%d", &arr[i].marks_info.fe_credithours);
         }
         else
@@ -136,7 +136,7 @@ void add_marks_data(struct Student *arr, int count)
 // print menu
 void printMenu()
 {
-    printf("\t -----------------> MARKS AND RESULT PROCESSIONG <-----------------\n");
+    printf("\t===============> MARKS AND RESULT PROCESSIONG <===============\n");
     printf("\t1. Add marks data (NOTE: if u want to add all student's marks data one by one )\n");
     printf("\t2. Update marks data (NOTE: if u want to add 1 student's marks data OR update existing Student's marks data )\n");
     printf("\t3. Search marks data\n");
@@ -155,7 +155,7 @@ void calculate_cgpa(struct Student *pstr, int count)
         {
             if (pstr[i].marks_info.itfa_credithours == 0.0 || pstr[i].marks_info.cp_credithours == 0.0 || pstr[i].marks_info.ap_credithours == 0.0 || pstr[i].marks_info.pst_credithours == 0.0 || pstr[i].marks_info.cag_credithours == 0.0 || pstr[i].marks_info.fe_credithours == 0.0)
             {
-                printf(" credit Hours are not stored, go Option 1 to add marks data\n");
+                printf(" Credit Hours are not stored:(\t Go to Option 1 to Add Marks data :)  \n");
                 return;
             }
             else
@@ -173,7 +173,7 @@ void calculate_cgpa(struct Student *pstr, int count)
         {
             if (pstr[i].marks_info.itfa_credithours == 0.0 || pstr[i].marks_info.cp_credithours == 0.0 || pstr[i].marks_info.ap_credithours == 0.0 || pstr[i].marks_info.pst_credithours == 0.0 || pstr[i].marks_info.cag_credithours == 0.0 || pstr[i].marks_info.fe_credithours == 0.0)
             {
-                printf(" credit Hours are not stored, go Option 1 to add marks data\n");
+                printf(" Credit Hours are not stored:(\t Go to Option 1 to Add Marks data :) \n");
                 return;
             }
             else
@@ -189,7 +189,7 @@ void calculate_cgpa(struct Student *pstr, int count)
             }
             }
         }
-        printf("\t ------> Every students cgpa is calculated based on the data <--------\n");
+        printf("\t -----> Every students cgpa is calculated based on the data <-----\n");
         printdata(pstr, count);
     }
 
@@ -231,10 +231,10 @@ void edit_marks_data(struct Student *pstr, char roll_no[19], int count)
         pstr[index].marks_info.pst_gradescore = grade_points(pstr[index].marks_info.pst);
         pstr[index].marks_info.cag_gradescore = grade_points(pstr[index].marks_info.cag);
         pstr[index].marks_info.fe_gradescore = grade_points(pstr[index].marks_info.fe);
-        printf("\t ------> %S data Updated successfully <--------\n", roll_no);
+        printf("\t -----> %S data Updated successfully <-----\n", roll_no);
     }
     else
-        printf("\t ------> %S Not Found <--------\n", roll_no);
+        printf("\t %S Student not Found :) \n", roll_no);
 }
 
 // search marks data by roll no
@@ -260,7 +260,7 @@ void search_marks_data(struct Student *pstr, char roll_no[19], int count)
             return;
         }
     }
-    printf("\t ------> %S Not Found <--------\n", roll_no);
+    printf("\t %S Student not Found \n", roll_no);
 }
 
 // delete marks data of by roll no
@@ -278,11 +278,11 @@ void delete_marks_data(struct Student *pstr, char roll_no[19])
         }
         else
         {
-            printf("\t ------> %S Not Found <--------\n", roll_no);
+            printf("\t %S Student not Found :) \n", roll_no);
             return;
         }
     }
-    printf("\t ------> %S data deleted successfully <--------\n", roll_no);
+    printf("\t-----> %S data deleted successfully <-----\n", roll_no);
 }
 
 // main function of this file
@@ -303,13 +303,13 @@ void tabulation(struct Student *s, int totalstdnts)
             case 1:
                 add_marks_data(s, totalstdnts);
                 saveDataArray(s, totalstdnts, 1, 1);
-                printf("\t------------> Your marks data is saved successfully and the data is : \n");
+                printf("\t-----> Your marks data is saved successfully and the data is <-----\n");
                 printdata(s, totalstdnts);
                 break;
             case 2:
                 if (totalstdnts == 0)
                 {
-                    printf("NO DATA STORED\n");
+                    printf("NO DATA STORED :)\n");
                     break;
                 }
                 printf("Enter Roll No: ");
@@ -321,7 +321,7 @@ void tabulation(struct Student *s, int totalstdnts)
             case 3:
                 if (totalstdnts == 0)
                 {
-                    printf("NO DATA STORED\n");
+                    printf("NO DATA STORED :)\n");
                     break;
                 }
                 printf("Enter Roll No: ");
@@ -332,15 +332,16 @@ void tabulation(struct Student *s, int totalstdnts)
             case 4:
                 if (totalstdnts == 0)
                 {
-                    printf("NO DATA STORED\n");
+                    printf("NO DATA STORED :)\n");
                     break;
                 }
                 calculate_cgpa(s, totalstdnts);
+                saveDataArray(s,totalstdnts,1,1);
                 break;
             case 5:
                 if (totalstdnts == 0)
                 {
-                    printf("NO DATA STORED\n");
+                    printf("NO DATA STORED :)\n");
                     break;
                 }
                 clearScreen();
@@ -348,6 +349,7 @@ void tabulation(struct Student *s, int totalstdnts)
                 break;
 
             default:
+                printf("Exiting Result Processing..!!\n");
                 break;
             }
         }
