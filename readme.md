@@ -1,4 +1,143 @@
-# 💡 Examination Management System Documentation
+# CPP1-EMS — Examination Management System
+
+CPP1-EMS is a **C language based Examination Management System** developed as a **Computer Programming (CP) course project**.  
+The system manages students, attendance, exam results, seating arrangements, and user authentication using **JSON file storage**.
+
+This project is suitable for **students, beginners, and academic demonstrations**.
+
+---
+
+## Features
+
+- Student Management (Add, Update, Delete, View)
+- Attendance Management
+- Result Processing & CGPA Calculation
+- Exam Seating Arrangement
+- Role-Based Login System (Admin / Teacher / Student)
+- JSON-based Data Storage (No Database Required)
+- Console-based Interactive Menus
+
+---
+
+## Tech Stack
+
+- **Language:** C
+- **Data Storage:** JSON files
+- **Compiler:** GCC
+- **Platform:** Windows / Linux / macOS
+
+---
+
+## Installation Guide
+
+Follow the steps below to install and run the **CPP1-EMS (Examination Management System)** on your local machine.
+
+---
+
+### Prerequisites
+
+Before starting, make sure you have:
+
+- **GCC Compiler** installed  
+- **Git** (optional, for cloning)
+- A **terminal / command prompt**
+- Basic knowledge of C programming
+
+Check GCC installation:
+
+    gcc --version
+
+---
+
+## Step 1: Clone the Repository
+
+Clone the project from GitHub:
+
+    git clone https://github.com/Ali309455/CPP1-EMS.git
+
+Navigate into the project directory:
+
+    cd CPP1-EMS
+
+---
+
+## Step 2: Compile the Project
+
+Compile all source files using GCC:
+
+    gcc main.c Portal.c studentmanagement.c attendancemanagement.c resultprocessing.c sittingarrangement.c cJSON.c -o EMS
+
+If compilation succeeds, an executable file will be created.
+
+---
+
+## Step 3: Run the Application
+
+### On Windows
+
+    EMS.exe
+
+### On Linux / macOS
+
+    ./EMS
+
+---
+
+## Step 4: Verify Execution
+
+After running the program:
+
+- A menu-driven interface will appear
+- Select a role (Admin / Teacher / Student)
+- Navigate using numeric options
+
+All data is automatically saved in JSON files.
+
+---
+
+## Data Files Used
+
+The project uses JSON-based storage:
+
+- `students.json` — student records
+- `credentials.json` — login credentials
+
+Ensure these files exist in the project directory.
+
+---
+
+## Common Issues & Fixes
+
+### GCC Not Found
+
+Install GCC:
+
+- **Windows:** Install MinGW
+- **Linux:**
+  
+      sudo apt install gcc
+
+- **macOS:**
+  
+      xcode-select --install
+
+---
+
+### Permission Denied (Linux / macOS)
+
+    chmod +x EMS
+    ./EMS
+
+---
+
+##Installation Complete
+
+You have successfully installed and executed **CPP1-EMS** 🎉  
+You can now explore all features of the Examination Management System.
+
+
+
+# EMS Documentation
 
 This documentation covers the main files of a C-based Examination Management System (EMS). The system handles student management, attendance, result processing, sitting arrangements, user credential management, and JSON data serialization. Below, each file's purpose, structure, and operation are described in detail.
 
@@ -369,5 +508,3 @@ The EMS is a C CLI application and does **not** expose HTTP API endpoints. Howev
 For further customization or integration with other systems, consider abstracting file storage and authentication for more scalable deployments.
 
 ---
-
-**End of Documentation**
